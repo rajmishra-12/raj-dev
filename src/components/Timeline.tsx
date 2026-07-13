@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
-import { motion, useInView, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { useState, useRef, useEffect } from "react";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import {
-  MapPin, Calendar, ExternalLink, ChevronDown, ChevronUp,
+  MapPin, Calendar, ExternalLink, ChevronDown, ChevronUp, ChevronRight,
   Smartphone, Zap, Brain, Bluetooth, Globe, Server, Layers, X
 } from "lucide-react";
 
@@ -14,58 +14,64 @@ const EXPERIENCES = [
     company: "EitBiz Technologies",
     role: "Flutter Developer",
     period: "June 2025 – Present",
-    duration: "Current",
-    location: "Remote",
+    duration: "Present",
+    location: "New Delhi, India",
     color: "#4F8CFF",
     icon: Zap,
     description:
-      "Leading development of premium mobile experiences across healthcare, IoT, and AI domains — shipping production applications used by thousands of real users.",
+      "Design and develop production-grade Flutter applications for Android and iOS across healthcare, social media, ride-sharing, and media verticals. Lead performance profiling, memory optimization, and UI/UX redesigns.",
     metrics: [
-      { label: "Apps Shipped", value: 12, suffix: "+" },
       { label: "BLE Devices", value: 5, suffix: "+" },
       { label: "AI Integrations", value: 3, suffix: "" },
+      { label: "Swipe rendering", value: 60, suffix: " FPS" },
       { label: "Avg Rating", value: 4.8, suffix: "★" },
     ],
-    chips: ["Flutter", "BLE/GATT", "OpenAI", "Socket.IO", "Riverpod", "Stripe", "FCM", "WebRTC"],
+    chips: ["Flutter", "BLE/GATT", "OpenAI", "Socket.IO", "Riverpod", "Bloc/Cubit", "Firebase", "WebRTC", "In-App Purchases"],
     projects: [
       {
         id: "medentum",
         name: "Medentum Diagnostick",
         category: "Healthcare · IoT",
-        desc: "Real-time medical device companion connecting to patient monitors via BLE, streaming vital signs with instant AI diagnostics.",
-        achievement: "Live GATT streaming + GPT diagnostics",
-        stack: ["Flutter", "BLE", "OpenAI", "Riverpod", "Camera API"],
+        desc: "BLE heart-rate monitoring from paired medical devices with instant GPT-4 health insights and live camera documentations.",
+        achievement: "BLE Integration + OpenAI Diagnostics",
+        stack: ["Flutter", "BLE/GATT", "OpenAI API", "Riverpod", "Camera API"],
         color: "#10A37F",
         gradient: "from-emerald-600 to-teal-900",
         icon: Bluetooth,
-        challenges: "Handling raw byte packets from medical hardware without dropping values or freezing the active UI thread.",
+        challenges: "Handling raw byte packets from medical monitoring hardware without dropping values or freezing the active UI thread.",
         architecture: "Layered Domain/Repository pattern with Riverpod provider hooks.",
+        playStore: "https://play.google.com/store/apps/details?id=com.medentum.diagnostick",
+        appStore: "https://apps.apple.com/us/app/diagnostick/id6499124629",
       },
       {
         id: "zembora",
         name: "Zembora",
         category: "Ride Sharing",
-        desc: "Full ride-sharing ecosystem with live maps, automated fare splits, driver match scoring, and real-time route navigation.",
+        desc: "Full ride-sharing ecosystem featuring Google Maps tracking, dynamic routes geofencing, and real-time Socket.IO routing.",
         achievement: "18% reduction in pickup time",
-        stack: ["Flutter", "Socket.IO", "Google Maps", "Node.js", "Express"],
+        stack: ["Flutter", "Socket.IO", "Google Maps SDK", "Node.js", "Express"],
         color: "#7C3AED",
         gradient: "from-purple-700 to-indigo-950",
         icon: Globe,
-        challenges: "Synchronizing driver and rider states instantly across weak cell towers.",
-        architecture: "Event-driven real-time synchronized architecture.",
+        challenges: "Synchronizing driver and rider states instantly across weak cell towers; route matches using waypoints.",
+        architecture: "Event-driven real-time synchronized architecture with Socket.IO.",
+        playStore: "",
+        appStore: "",
       },
       {
         id: "orra",
         name: "Orra",
         category: "Dating App",
-        desc: "Premium dating app with real-time swipe matching, multimedia sharing, and peer-to-peer video calling via WebRTC.",
+        desc: "Dating app featuring swipe matching, Socket.IO chat rooms, message delivery receipts, and WebRTC video call pipelines.",
         achievement: "Custom swipe stack at 60 FPS",
         stack: ["Flutter", "Firebase Auth", "Socket.IO", "Cubit", "WebRTC"],
         color: "#E11D48",
         gradient: "from-pink-600 to-rose-950",
         icon: Smartphone,
-        challenges: "Preventing lag on gesture-driven cards rendering dynamic image arrays.",
+        challenges: "Preventing lag on gesture-driven cards rendering dynamic image arrays; optimizing video call codecs.",
         architecture: "Reactive Cubit state machines with local persistence.",
+        playStore: "",
+        appStore: "",
       },
       {
         id: "mainstreet",
@@ -73,37 +79,39 @@ const EXPERIENCES = [
         category: "Media Platform",
         desc: "Premium entertainment app with in-app purchases, push notifications, deep linking, and premium content streaming.",
         achievement: "+25% paywall conversion rate",
-        stack: ["Flutter", "StoreKit", "FCM", "GoRouter", "Bloc"],
+        stack: ["Flutter", "StoreKit", "FCM", "GoRouter", "Bloc", "Firebase"],
         color: "#0EA5E9",
         gradient: "from-blue-600 to-indigo-900",
         icon: Layers,
         challenges: "Synchronizing subscription state dynamically under varying network coverage.",
         architecture: "Feature-driven Clean Architecture with Bloc state routing.",
+        playStore: "https://play.google.com/store/apps/details?id=com.mainstreetmedia.android",
+        appStore: "https://apps.apple.com/us/app/main-street-media/id6758084000",
       },
     ],
   },
   {
     id: "prutor",
     company: "Prutor.ai · IIT Kanpur",
-    role: "Flutter Developer",
-    period: "Sep 2024 – May 2025",
+    role: "Flutter Developer (Full-Time)",
+    period: "September 2024 – May 2025",
     duration: "9 months",
-    location: "IIT Kanpur (Remote)",
+    location: "Noida",
     color: "#6FE7FF",
     icon: Brain,
     description:
-      "Built high-scale educational tools reaching 100K+ learners — shipping gamified learning platforms with offline support and multi-device optimization.",
+      "Designed and developed scalable educational and gamified learning platforms serving thousands of students preparing for competitive examinations. Collaborated with researchers to translate pedagogical requirements into features.",
     metrics: [
       { label: "Downloads", value: 100, suffix: "K+" },
       { label: "Games Built", value: 40, suffix: "+" },
       { label: "Frame Time", value: 42, suffix: "% faster" },
-      { label: "Rating", value: 4.7, suffix: "★" },
+      { label: "Quizzes quiz-engine", value: 1.8, suffix: "K+" },
     ],
-    chips: ["Flutter", "Riverpod", "Supabase", "SQLite", "Firebase", "WebViews", "AudioPlayers"],
+    chips: ["Flutter", "Riverpod", "Supabase", "SQLite", "Firebase", "WebViews", "AudioPlayers", "Custom Canvas"],
     projects: [
       {
         id: "sathee",
-        name: "Sathee",
+        name: "Sathee Education App",
         category: "Education Platform",
         desc: "Outreach education app delivering course content, assessments, mock exams, and video lessons to 100K+ students.",
         achievement: "100K+ downloads · 42% faster renders",
@@ -113,12 +121,29 @@ const EXPERIENCES = [
         icon: Brain,
         challenges: "Rendering analytical charts efficiently on older budget Android devices.",
         architecture: "Domain-driven design with decoupled local database caching.",
+        playStore: "https://play.google.com/store/apps/details?id=com.sathee_app",
+        appStore: "https://apps.apple.com/us/app/sathee/id6470142920",
+      },
+      {
+        id: "satheekendra",
+        name: "Sathee Kendra",
+        category: "School Management",
+        desc: "School management utility with role-based dashboards, quiz engines, adaptive difficulty, and result analytics.",
+        achievement: "1.8K+ Quizzes & Riverpod Architecture",
+        stack: ["Flutter", "Riverpod", "REST APIs", "FCM", "Dart"],
+        color: "#3B82F6",
+        gradient: "from-blue-600 to-indigo-900",
+        icon: Server,
+        challenges: "Managing highly complex permissions and states across multiple user roles concurrently.",
+        architecture: "Decoupled Riverpod architecture with repositories.",
+        playStore: "https://play.google.com/store/apps/details?id=com.satheekendra",
+        appStore: "https://apps.apple.com/us/app/sathee-kendra/id6749477967",
       },
       {
         id: "prutor-games",
         name: "Prutor Games",
         category: "Gamified Learning",
-        desc: "40+ educational mini-games teaching programming, math, and logic via bite-sized interactive challenges.",
+        desc: "Gamified learning portal hosting 40+ interactive vocabulary games using space repetition and live scoreboards.",
         achievement: "Live scoreboard under 100ms",
         stack: ["Flutter", "Custom Canvas", "Supabase", "AudioPlayers"],
         color: "#F59E0B",
@@ -126,19 +151,23 @@ const EXPERIENCES = [
         icon: Zap,
         challenges: "Standardizing inputs, states, and scores across 40 distinct games.",
         architecture: "Component-based micro-game engine framework.",
+        playStore: "https://play.google.com/store/apps/details?id=com.prutorgames.sathee_elevated",
+        appStore: "",
       },
       {
-        id: "troptrop",
-        name: "Trop C'est Trop",
-        category: "NGO Platform",
-        desc: "Social outreach utility for a prominent NGO — real-time community feed, campaigns, and global push notifications.",
-        achievement: "Progressive media loader for low-bandwidth",
-        stack: ["Flutter", "Firestore", "Firebase Cloud Functions", "FCM"],
-        color: "#EF4444",
-        gradient: "from-red-600 to-zinc-900",
-        icon: Globe,
-        challenges: "Synchronizing media feeds on extremely low bandwidth cellular connections.",
-        architecture: "MVC architecture with event publishers.",
+        id: "smartgames",
+        name: "Smart Games",
+        category: "Gamified Learning",
+        desc: "Cognitive educational games combining cognitive challenges with bite-sized educational content.",
+        achievement: "10K+ Downloads & Gamified Cognition",
+        stack: ["Flutter", "Dart", "Supabase", "AudioPlayers", "FCM"],
+        color: "#10B981",
+        gradient: "from-emerald-600 to-green-900",
+        icon: Brain,
+        challenges: "Designing responsive layouts for highly interactive canvas elements across mobile & tablets.",
+        architecture: "Modular block architecture with local SQLite persistence.",
+        playStore: "https://play.google.com/store/apps/details?id=com.prutor.smart_games",
+        appStore: "https://apps.apple.com/us/app/smart-games/id6746445090",
       },
     ],
   },
@@ -158,35 +187,30 @@ function Counter({ value, suffix, active }: { value: number; suffix: string; act
     let step = 0;
     const timer = setInterval(() => {
       step++;
-      const progress = step / steps;
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setDisplay(isDecimal ? Math.round(eased * value * 10) / 10 : Math.round(eased * value));
-      if (step >= steps) clearInterval(timer);
+      if (step >= steps) {
+        setDisplay(value);
+        clearInterval(timer);
+      } else {
+        const currentVal = (value / steps) * step;
+        setDisplay(isDecimal ? parseFloat(currentVal.toFixed(1)) : Math.round(currentVal));
+      }
     }, interval);
+
     return () => clearInterval(timer);
   }, [active, value]);
 
-  return (
-    <span>
-      {display}
-      {suffix}
-    </span>
-  );
+  return <span>{display}{suffix}</span>;
 }
 
-// ─── Tech chip ────────────────────────────────────────────────────────────────
+// ─── Chips ─────────────────────────────────────────────────────────────────────
 function TechChip({ label, color }: { label: string; color: string }) {
-  const [hovered, setHovered] = useState(false);
   return (
     <span
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      className="px-2.5 py-1 rounded-full text-[9px] font-mono font-bold uppercase tracking-widest cursor-default transition-all duration-200 border"
+      className="px-2 py-0.5 rounded-full text-[9px] font-mono font-bold uppercase tracking-widest border transition-all hover:scale-105"
       style={{
-        borderColor: hovered ? color : `${color}44`,
-        color: hovered ? color : "rgba(255,255,255,0.55)",
-        background: hovered ? `${color}18` : "transparent",
-        boxShadow: hovered ? `0 0 12px ${color}44` : "none",
+        borderColor: `${color}35`,
+        color,
+        background: `${color}0c`,
       }}
     >
       {label}
@@ -194,7 +218,7 @@ function TechChip({ label, color }: { label: string; color: string }) {
   );
 }
 
-// ─── Project modal ────────────────────────────────────────────────────────────
+// ─── Project details modal ─────────────────────────────────────────────────────
 function ProjectModal({
   project,
   onClose,
@@ -216,8 +240,8 @@ function ProjectModal({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[200] flex items-center justify-center p-6"
-          style={{ backdropFilter: "blur(16px)", background: "rgba(0,0,0,0.75)" }}
+          className="fixed inset-0 z-[400] flex items-center justify-center p-6"
+          style={{ backdropFilter: "blur(16px)", background: "rgba(0,0,0,0.8)" }}
           onClick={onClose}
         >
           <motion.div
@@ -235,7 +259,7 @@ function ProjectModal({
           >
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+              className="absolute top-4 right-4 w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors cursor-pointer"
             >
               <X className="w-3.5 h-3.5 text-white/70" />
             </button>
@@ -277,9 +301,33 @@ function ProjectModal({
               </div>
             </div>
 
-            <div className="flex items-center gap-2 pt-4 border-t border-white/5">
-              <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: project.color }} />
-              <span className="text-[10px] font-mono" style={{ color: project.color }}>{project.achievement}</span>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-4 border-t border-white/5">
+              <div className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: project.color }} />
+                <span className="text-[10px] font-mono" style={{ color: project.color }}>{project.achievement}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                {project.playStore && (
+                  <a
+                    href={project.playStore}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-2.5 py-1.5 rounded-lg text-[9px] font-mono font-bold uppercase tracking-widest border border-white/10 hover:border-primary-accent hover:bg-primary-accent/10 text-white transition-all flex items-center gap-1 cursor-pointer"
+                  >
+                    Play Store
+                  </a>
+                )}
+                {project.appStore && (
+                  <a
+                    href={project.appStore}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-2.5 py-1.5 rounded-lg text-[9px] font-mono font-bold uppercase tracking-widest border border-white/10 hover:border-secondary-accent hover:bg-secondary-accent/10 text-white transition-all flex items-center gap-1 cursor-pointer"
+                  >
+                    App Store
+                  </a>
+                )}
+              </div>
             </div>
           </motion.div>
         </motion.div>
@@ -329,35 +377,19 @@ function ProjectCard({
           <div>
             <div className="text-[8px] uppercase tracking-widest font-mono mb-0.5"
               style={{ color: project.color }}>{project.category}</div>
-            <h4 className="text-sm font-bold font-display text-white leading-tight">{project.name}</h4>
+            <h4 className="text-xs font-bold font-display text-white leading-tight">{project.name}</h4>
           </div>
         </div>
-        <ExternalLink className="w-3 h-3 text-white/20 group-hover:text-white/60 transition-colors shrink-0 mt-1" />
-      </div>
-
-      <p className="text-[11px] text-white/60 leading-relaxed font-sans">{project.desc}</p>
-
-      <div className="flex items-center gap-1.5 flex-wrap">
-        {project.stack.slice(0, 3).map((t) => (
-          <span key={t} className="px-1.5 py-0.5 rounded text-[8px] font-mono"
-            style={{ background: `${project.color}18`, color: `${project.color}cc` }}>
-            {t}
-          </span>
-        ))}
-        {project.stack.length > 3 && (
-          <span className="text-[8px] font-mono text-white/30">+{project.stack.length - 3}</span>
-        )}
-      </div>
-
-      <div className="flex items-center gap-1.5 pt-1 border-t border-white/5">
-        <span className="w-1 h-1 rounded-full" style={{ background: project.color }} />
-        <span className="text-[9px] font-mono text-white/50">{project.achievement}</span>
+        <div className="text-[8px] font-mono text-white/30 uppercase tracking-widest flex items-center gap-0.5">
+          <span>Explore</span>
+          <ChevronRight className="w-2.5 h-2.5" />
+        </div>
       </div>
     </motion.div>
   );
 }
 
-// ─── Company experience block ─────────────────────────────────────────────────
+// ─── Experience Block ────────────────────────────────────────────────────────
 function ExperienceBlock({
   exp,
   index,
@@ -369,15 +401,16 @@ function ExperienceBlock({
   isLast: boolean;
   onOpenProject: (p: (typeof EXPERIENCES)[0]["projects"][0]) => void;
 }) {
-  const [expanded, setExpanded] = useState(index === 0);
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
+  const ref = useRef(null);
+  const inView = true; // Simpler view rendering
+  const [expanded, setExpanded] = useState(index === 0); // Expand first card by default
+
   const isLeft = index % 2 === 0;
 
   return (
-    <div ref={ref} className="relative grid grid-cols-[1fr_60px_1fr] gap-0 items-start">
+    <div ref={ref} className="grid grid-cols-1 md:grid-cols-2 gap-4 relative">
       {/* Left side content */}
-      <div className={`${isLeft ? "pr-8" : ""} flex justify-end`}>
+      <div className={`${isLeft ? "pr-8" : ""} flex justify-end md:text-right`}>
         {isLeft && (
           <motion.div
             initial={{ opacity: 0, x: -40 }}
@@ -390,13 +423,9 @@ function ExperienceBlock({
         )}
       </div>
 
-      {/* Center timeline spine */}
-      <div className="flex flex-col items-center relative">
-        {/* Node dot */}
+      {/* Center timeline connector */}
+      <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 hidden md:flex flex-col items-center z-10">
         <motion.div
-          initial={{ scale: 0, opacity: 0 }}
-          animate={inView ? { scale: 1, opacity: 1 } : {}}
-          transition={{ duration: 0.4, delay: 0.2 }}
           className="w-12 h-12 rounded-full flex items-center justify-center z-10 border-2 relative"
           style={{
             background: `radial-gradient(circle, ${exp.color}33, #050505)`,
@@ -467,7 +496,7 @@ function CompanyCard({
       {/* Header — always visible */}
       <button
         onClick={onToggle}
-        className="w-full text-left p-5 flex items-start gap-4 group"
+        className="w-full text-left p-5 flex items-start gap-4 group cursor-pointer"
       >
         <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
           style={{ background: `${exp.color}18`, border: `1px solid ${exp.color}33` }}>

@@ -5,9 +5,8 @@ import {
   useRef,
   useEffect,
   useCallback,
-  useMemo,
 } from "react";
-import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   ChevronLeft,
   ChevronRight,
@@ -20,7 +19,7 @@ import {
   Brain,
   Smartphone,
   Shield,
-  Award,
+  Server,
   ArrowRight,
 } from "lucide-react";
 
@@ -38,13 +37,15 @@ export const PROJECTS = [
     accent: "from-sky-500 to-blue-600",
     icon: Layers,
     techStack: ["Flutter", "Dart", "StoreKit", "FCM", "GoRouter", "Bloc", "Firebase"],
-    shortDesc: "In-App Purchases, Push Notifications, Deep Linking, and Premium Content",
-    details: "A premium entertainment app providing real-time streaming videos, exclusive creator portals, and automated offline media downloads for thousands of active subscribers.",
+    shortDesc: "In-App Purchase subscriptions, push notifications, and deep linking.",
+    details: "A premium entertainment app providing real-time streaming videos, creator portals, and automated offline media downloads for thousands of active subscribers.",
     architecture: "Feature-driven Clean Architecture with Bloc state routing and modular packages.",
-    challenges: "Synchronizing subscription state dynamically with Apple StoreKit & Google Play billing under varying network coverage.",
-    achievements: "Built real-time dynamic paywalls causing a 25% conversion increase; integrated push notifications which boosted daily activity by 35%.",
-    metrics: [{ label: "Conversion Lift", value: "+25%" }, { label: "DAU Boost", value: "+35%" }, { label: "Rating", value: "4.8★" }],
+    challenges: "Synchronizing subscription state dynamically with Apple StoreKit & Google Play billing services under varying network coverage.",
+    achievements: "Implemented In-App Purchase flows for premium content subscriptions, streamlining the purchase journey and increasing revenue conversion.",
+    metrics: [{ label: "Revenue Lift", value: "+25%" }, { label: "DAU Boost", value: "+35%" }, { label: "Rating", value: "4.8★" }],
     platforms: ["iOS", "Android"],
+    playStore: "https://play.google.com/store/apps/details?id=com.mainstreetmedia.android",
+    appStore: "https://apps.apple.com/us/app/main-street-media/id6758084000",
   },
   {
     id: "medentum",
@@ -58,13 +59,15 @@ export const PROJECTS = [
     accent: "from-emerald-500 to-teal-600",
     icon: Bluetooth,
     techStack: ["Flutter", "BLE/GATT", "OpenAI API", "Riverpod", "Camera API", "Dart"],
-    shortDesc: "BLE Medical Devices, OpenAI Disease Analysis, and Camera Integration",
+    shortDesc: "BLE heart-rate monitoring and OpenAI-powered diagnostics.",
     details: "A medical companion application designed to connect securely to patient monitors, collect vital signs, and provide instant AI-powered insights using GPT-4.",
     architecture: "Layered Domain/Repository pattern with Riverpod provider hooks and reactive BLE streams.",
-    challenges: "Handling raw byte packets from medical hardware without dropping values or freezing the UI thread across dozens of device models.",
-    achievements: "Achieved seamless live GATT data streaming with sub-50ms latency; instant AI diagnostics powered by GPT models on raw sensor data.",
-    metrics: [{ label: "BLE Latency", value: "<50ms" }, { label: "Device Types", value: "5+" }, { label: "Accuracy", value: "98%" }],
+    challenges: "Handling raw byte packets from medical monitoring hardware without dropping values or freezing the active UI thread.",
+    achievements: "Built a BLE integration layer for real-time heart-rate monitoring from paired IoT devices and integrated OpenAI APIs for diagnostics.",
+    metrics: [{ label: "BLE Latency", value: "<50ms" }, { label: "Devices", value: "5+" }, { label: "Accuracy", value: "98%" }],
     platforms: ["iOS", "Android"],
+    playStore: "https://play.google.com/store/apps/details?id=com.medentum.diagnostick",
+    appStore: "https://apps.apple.com/us/app/diagnostick/id6499124629",
   },
   {
     id: "zembora",
@@ -72,43 +75,47 @@ export const PROJECTS = [
     tagline: "Full ride-sharing ecosystem with live routing",
     category: "Ride Sharing",
     industry: "Transport",
-    status: "Live · Production",
+    status: "Active Development",
     color: "#8B5CF6",
     bg: "from-violet-950 via-purple-950 to-zinc-950",
     accent: "from-violet-500 to-purple-600",
     icon: Globe,
     techStack: ["Flutter", "Socket.IO", "Google Maps SDK", "Node.js", "Express", "MongoDB"],
-    shortDesc: "Google Maps, Socket.IO, and AI Trip Assistance",
-    details: "A comprehensive ride-sharing ecosystem featuring live maps, automated fare splits, driver match scoring, AI route advice, and real-time navigation.",
-    architecture: "Event-driven real-time synchronized architecture with Socket.IO rooms and MongoDB Atlas.",
-    challenges: "Synchronizing driver and rider states instantly across weak cell towers; resolving accurate route matches using complex multi-waypoint paths.",
-    achievements: "Scaled Socket.IO server channels; engineered route prediction reducing average rider pick-up time by 18%.",
-    metrics: [{ label: "Pickup Time", value: "-18%" }, { label: "Real-time", value: "Socket.IO" }, { label: "Maps", value: "Google" }],
+    shortDesc: "Google Maps SDK for real-time location tracking and ETA mapping.",
+    details: "A comprehensive ride-sharing ecosystem featuring live maps, automated fare splits, driver match scoring, and route navigation.",
+    architecture: "Event-driven real-time synchronized architecture with Socket.IO and Node.js REST APIs.",
+    challenges: "Synchronizing driver and rider states instantly across weak cell towers; resolving route matches using complex waypoints.",
+    achievements: "Scaled Socket.IO server channels; engineered route prediction reducing average rider pick-up times by 18%.",
+    metrics: [{ label: "Pickup Time", value: "-18%" }, { label: "Sync Latency", value: "<150ms" }, { label: "Protocols", value: "Socket.IO" }],
     platforms: ["iOS", "Android"],
+    playStore: "",
+    appStore: "",
   },
   {
     id: "orra",
     title: "Orra",
-    tagline: "Premium dating with real-time video calls",
+    tagline: "Premium dating with real-time swipe matching",
     category: "Dating App",
     industry: "Social",
-    status: "Live · Production",
+    status: "Production · Completed",
     color: "#F43F5E",
     bg: "from-rose-950 via-pink-950 to-zinc-950",
     accent: "from-rose-500 to-pink-600",
     icon: Smartphone,
     techStack: ["Flutter", "Firebase Auth", "Socket.IO", "Cubit", "WebRTC", "Firestore"],
-    shortDesc: "Real-time Chat, Swipe Matching, and Media Sharing",
+    shortDesc: "Real-time chat, swipe matching, and low-latency WebRTC video calls.",
     details: "A premium dating app designed for instantaneous matching, text messaging, media sharing, and high-fidelity video chat with gesture-driven UX.",
     architecture: "Reactive Cubit state machines with local persistence and optimistic UI updates.",
-    challenges: "Preventing lag on gesture-driven swipe cards rendering dynamic image arrays; optimizing video call pipeline codecs for low-bandwidth.",
+    challenges: "Preventing lag on gesture-driven swipe cards rendering dynamic image arrays; optimizing video call pipeline codecs.",
     achievements: "Created custom swiping stack view rendering at 60 FPS; implemented audio/video peer connections via WebRTC.",
-    metrics: [{ label: "Swipe FPS", value: "60" }, { label: "Video", value: "WebRTC" }, { label: "Auth", value: "Firebase" }],
+    metrics: [{ label: "Swipe FPS", value: "60" }, { label: "Chat Latency", value: "<80ms" }, { label: "WebRTC", value: "P2P" }],
     platforms: ["iOS", "Android"],
+    playStore: "",
+    appStore: "",
   },
   {
     id: "sathee",
-    title: "Sathee",
+    title: "Sathee Education App",
     tagline: "100K+ learners · offline-first education",
     category: "Education Platform",
     industry: "Education",
@@ -118,13 +125,37 @@ export const PROJECTS = [
     accent: "from-cyan-500 to-sky-600",
     icon: Brain,
     techStack: ["Flutter", "Riverpod", "SQLite", "Firebase", "WebViews", "Dart"],
-    shortDesc: "100K+ Downloads and Performance Optimization",
+    shortDesc: "Adaptive content delivery, assessments, and offline synchronization.",
     details: "An outreach educational application delivering course content, automated assessments, mock exams, and video lessons to over 100,000 students.",
     architecture: "Domain-driven design with decoupled local SQLite caching and offline-first sync.",
-    challenges: "Rendering large analytical charts and tables efficiently on older budget Android devices with low memory footprints.",
-    achievements: "Scaled the application past 100,000 organic downloads; improved overall frame render time by 42% through build-phase profiling.",
-    metrics: [{ label: "Downloads", value: "100K+" }, { label: "Render Boost", value: "+42%" }, { label: "Rating", value: "4.7★" }],
+    challenges: "Rendering large analytical charts and tables efficiently on older budget Android devices with low memory.",
+    achievements: "Optimised app startup time and scroll performance through widget tree restructuring, lazy loading, and efficient state management, contributing to a 100,000+ download milestone.",
+    metrics: [{ label: "Downloads", value: "100K+" }, { label: "Startup Time", value: "-35%" }, { label: "Rating", value: "4.7★" }],
     platforms: ["iOS", "Android"],
+    playStore: "https://play.google.com/store/apps/details?id=com.sathee_app",
+    appStore: "https://apps.apple.com/us/app/sathee/id6470142920",
+  },
+  {
+    id: "satheekendra",
+    title: "Sathee Kendra",
+    tagline: "Comprehensive school management platform",
+    category: "School Management",
+    industry: "EdTech",
+    status: "Live on App Store & Google Play",
+    color: "#3B82F6",
+    bg: "from-blue-950 via-indigo-950 to-zinc-950",
+    accent: "from-blue-500 to-indigo-600",
+    icon: Server,
+    techStack: ["Flutter", "Riverpod", "REST APIs", "FCM", "Dart"],
+    shortDesc: "Role-based dashboards, content workflows, and smart quiz engines.",
+    details: "A comprehensive school management platform with role-based dashboards for administrators, teachers, and students, supporting content and operational workflows.",
+    architecture: "Decoupled Riverpod architecture with repositories and data-source abstraction layers.",
+    challenges: "Managing highly complex permissions and states across multiple user roles concurrently.",
+    achievements: "Built a smart quiz engine hosting 1,800+ quizzes with adaptive difficulty, result analytics, and leaderboards.",
+    metrics: [{ label: "Quizzes", value: "1.8K+" }, { label: "Roles", value: "3 Active" }, { label: "Rating", value: "4.9★" }],
+    platforms: ["iOS", "Android"],
+    playStore: "https://play.google.com/store/apps/details?id=com.satheekendra",
+    appStore: "https://apps.apple.com/us/app/sathee-kendra/id6749477967",
   },
   {
     id: "prutor",
@@ -132,19 +163,43 @@ export const PROJECTS = [
     tagline: "40+ educational games · live leaderboards",
     category: "Gamified Learning",
     industry: "Education · Gaming",
-    status: "Live · IIT Kanpur",
+    status: "Live on Google Play",
     color: "#F59E0B",
     bg: "from-amber-950 via-orange-950 to-zinc-950",
     accent: "from-amber-500 to-orange-600",
     icon: Zap,
     techStack: ["Flutter", "Custom Canvas", "Supabase", "AudioPlayers", "Dart"],
-    shortDesc: "40+ Educational Games built with Supabase",
+    shortDesc: "Vocabulary games leveraging space repetition and scoreboards.",
     details: "An educational gaming portal created to teach programming, mathematics, and logic concepts via bite-sized interactive games with live leaderboards.",
     architecture: "Component-based micro-game engine framework with shared state and Supabase realtime sync.",
     challenges: "Standardizing inputs, states, and scores across 40 distinct game types to log leaderboard metrics in real-time.",
-    achievements: "Delivered 40+ interactive games within a single responsive app wrapper; achieved live scoreboard updates under 100ms.",
-    metrics: [{ label: "Games Built", value: "40+" }, { label: "Leaderboard", value: "<100ms" }, { label: "Institute", value: "IIT KGP" }],
-    platforms: ["iOS", "Android", "Web"],
+    achievements: "Developed 40+ interactive vocabulary games using Flutter and Supabase, leveraging spaced repetition to improve language retention.",
+    metrics: [{ label: "Games Built", value: "40+" }, { label: "Leaderboard", value: "<100ms" }, { label: "Platform", value: "Android" }],
+    platforms: ["Android"],
+    playStore: "https://play.google.com/store/apps/details?id=com.prutorgames.sathee_elevated",
+    appStore: "",
+  },
+  {
+    id: "smartgames",
+    title: "Smart Games",
+    tagline: "Cognitive educational gaming for youths",
+    category: "Gamified Learning",
+    industry: "Cognitive EdTech",
+    status: "10K+ Downloads",
+    color: "#10B981",
+    bg: "from-emerald-950 via-green-950 to-zinc-950",
+    accent: "from-emerald-500 to-green-600",
+    icon: Brain,
+    techStack: ["Flutter", "Dart", "Supabase", "AudioPlayers", "FCM"],
+    shortDesc: "Cognitive challenges combined with educational content.",
+    details: "Gamified learning experiences combining cognitive challenges with educational content, built to boost student retention.",
+    architecture: "Modular block architecture with local SQLite persistence.",
+    challenges: "Designing responsive layouts for highly interactive canvas elements across phone and tablet sizes.",
+    achievements: "Engineered gamified learning experiences contributing to a 10,000+ download count and strong user feedback ratings.",
+    metrics: [{ label: "Downloads", value: "10K+" }, { label: "Rating", value: "4.9★" }, { label: "Framework", value: "Flutter" }],
+    platforms: ["iOS", "Android"],
+    playStore: "https://play.google.com/store/apps/details?id=com.prutor.smart_games",
+    appStore: "https://apps.apple.com/us/app/smart-games/id6746445090",
   },
   {
     id: "trop",
@@ -152,19 +207,21 @@ export const PROJECTS = [
     tagline: "NGO social platform · global reach",
     category: "NGO Platform",
     industry: "Social Impact",
-    status: "Live · Active",
+    status: "Live on App Store & Google Play",
     color: "#EF4444",
     bg: "from-red-950 via-rose-950 to-zinc-950",
     accent: "from-red-500 to-rose-600",
     icon: Shield,
     techStack: ["Flutter", "Firestore", "Firebase Cloud Functions", "FCM", "Dart"],
-    shortDesc: "Community Feed, Notifications, and Firebase Integration",
+    shortDesc: "Community feed, media uploads, and in-app notifications.",
     details: "A social outreach utility app for a prominent NGO, letting members read feeds, join campaigns, and communicate in real-time across global chapters.",
     architecture: "Model-View-Controller (MVC) architecture with Firestore real-time listeners and Firebase Cloud Function triggers.",
     challenges: "Synchronizing media feeds containing images and videos on extremely low bandwidth cellular connections in developing regions.",
-    achievements: "Created progressive image loader and media optimizer; enabled real-time global notification feed for critical NGO updates.",
+    achievements: "Independently managed the end-to-end development lifecycle from requirements gathering through App Store and Google Play submission and review.",
     metrics: [{ label: "Feed Latency", value: "Real-time" }, { label: "Push", value: "FCM" }, { label: "Reach", value: "Global" }],
     platforms: ["iOS", "Android"],
+    playStore: "https://play.google.com/store/apps/details?id=com.trop.cest",
+    appStore: "https://apps.apple.com/us/app/trop-cest-trop/id6757865489",
   },
 ];
 
@@ -346,7 +403,7 @@ function CaseStudy({ project, onClose }: { project: typeof PROJECTS[0]; onClose:
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-6 right-6 w-10 h-10 glass-icon rounded-full flex items-center justify-center transition-all z-10"
+          className="absolute top-6 right-6 w-10 h-10 glass-icon rounded-full flex items-center justify-center transition-all z-10 cursor-pointer"
         >
           <X className="w-4 h-4 text-white/80" />
         </button>
@@ -421,14 +478,40 @@ function CaseStudy({ project, onClose }: { project: typeof PROJECTS[0]; onClose:
           </div>
         </div>
 
-        {/* Platforms */}
-        <div className="flex items-center gap-4 pt-4 border-t border-white/5">
-          <span className="text-[9px] uppercase tracking-widest font-mono text-white/25">Available on</span>
-          {project.platforms.map((p) => (
-            <span key={p} className="px-3 py-1 rounded-full text-[10px] font-mono border border-white/10 text-white/50">
-              {p}
-            </span>
-          ))}
+        {/* Platforms and Store Links */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pt-6 border-t border-white/10">
+          <div className="flex items-center gap-3">
+            <span className="text-[9px] uppercase tracking-widest font-mono text-white/25">Available on</span>
+            {project.platforms.map((p) => (
+              <span key={p} className="px-3 py-1 rounded-full text-[10px] font-mono border border-white/10 text-white/50">
+                {p}
+              </span>
+            ))}
+          </div>
+          <div className="flex items-center gap-3 flex-wrap">
+            {project.playStore && (
+              <a
+                href={project.playStore}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2 rounded-xl text-[10px] font-bold font-mono uppercase tracking-widest flex items-center gap-1.5 border border-white/10 hover:border-primary-accent hover:bg-primary-accent/10 text-white/80 hover:text-white transition-all cursor-pointer"
+              >
+                <span>Google Play</span>
+                <ExternalLink className="w-3 h-3" />
+              </a>
+            )}
+            {project.appStore && (
+              <a
+                href={project.appStore}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2 rounded-xl text-[10px] font-bold font-mono uppercase tracking-widest flex items-center gap-1.5 border border-white/10 hover:border-secondary-accent hover:bg-secondary-accent/10 text-white/80 hover:text-white transition-all cursor-pointer"
+              >
+                <span>App Store</span>
+                <ExternalLink className="w-3 h-3" />
+              </a>
+            )}
+          </div>
         </div>
       </div>
     </motion.div>
@@ -449,8 +532,9 @@ function ThumbCard({
     <motion.div
       onClick={onClick}
       whileHover={{ scale: 1.04 }}
-      className="cursor-pointer rounded-2xl border border-white/5 overflow-hidden h-full flex flex-col items-center justify-center gap-4 p-6 transition-all"
+      className="cursor-pointer rounded-2xl border overflow-hidden h-full flex flex-col items-center justify-center gap-4 p-6 transition-all"
       style={{
+        borderColor: `rgba(255, 255, 255, 0.08)`,
         background: `linear-gradient(135deg, rgba(8,8,12,0.9), ${project.color}0c)`,
         boxShadow: `0 0 30px ${project.color}11`,
       }}
@@ -572,7 +656,7 @@ export default function ProjectShowcase() {
                 transition={{ duration: 0.45, ease: [0.4, 0, 0.2, 1] }}
                 className="h-full rounded-2xl border overflow-hidden flex flex-col lg:flex-row"
                 style={{
-                  borderColor: `${active.color}30`,
+                  borderColor: `${active.color}40`,
                   background: `linear-gradient(135deg, rgba(6,6,10,0.98), ${active.color}0e)`,
                   boxShadow: `0 0 60px ${active.color}18`,
                 }}
@@ -624,19 +708,36 @@ export default function ProjectShowcase() {
                   </div>
 
                   {/* CTA */}
-                  <div className="flex gap-3 mt-6">
+                  <div className="flex flex-wrap gap-3 mt-6 items-center">
                     <button
                       onClick={() => setCaseStudy(active)}
-                      className="px-5 py-2.5 rounded-xl text-xs font-bold font-mono uppercase tracking-widest flex items-center gap-2 transition-all hover:brightness-110 active:scale-95"
-                      style={{ background: `linear-gradient(135deg, ${active.color}, ${active.color}cc)`, color: "#000" }}
+                      className="px-5 py-2.5 rounded-xl text-xs font-bold font-mono uppercase tracking-widest flex items-center gap-2 transition-all hover:brightness-110 active:scale-95 cursor-pointer"
+                      style={{ background: `linear-gradient(135deg, ${active.color}, ${active.color}cc)`, color: "#fff" }}
                     >
                       View Case Study <ArrowRight className="w-3.5 h-3.5" />
                     </button>
-                    <div className="flex items-center gap-1 text-[9px] font-mono text-white/25 uppercase tracking-widest">
-                      {active.platforms.map((p) => (
-                        <span key={p} className="px-2 py-1 rounded border border-white/10 text-white/35">{p}</span>
-                      ))}
-                    </div>
+                    
+                    {active.playStore && (
+                      <a
+                        href={active.playStore}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-3 py-2 rounded-xl text-[10px] font-bold font-mono uppercase tracking-widest flex items-center gap-1 border border-white/10 hover:border-primary-accent/40 text-white/60 hover:text-white transition-all cursor-pointer"
+                      >
+                        Play Store
+                      </a>
+                    )}
+
+                    {active.appStore && (
+                      <a
+                        href={active.appStore}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-3 py-2 rounded-xl text-[10px] font-bold font-mono uppercase tracking-widest flex items-center gap-1 border border-white/10 hover:border-secondary-accent/40 text-white/60 hover:text-white transition-all cursor-pointer"
+                      >
+                        App Store
+                      </a>
+                    )}
                   </div>
                 </div>
 
@@ -662,7 +763,7 @@ export default function ProjectShowcase() {
         <div className="flex items-center justify-center gap-4 mt-6">
           <button
             onClick={() => go(activeIdx - 1)}
-            className="w-9 h-9 glass-icon rounded-full flex items-center justify-center transition-all text-white/50 hover:text-white"
+            className="w-9 h-9 glass-icon rounded-full flex items-center justify-center transition-all text-white/50 hover:text-white cursor-pointer"
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
@@ -673,7 +774,7 @@ export default function ProjectShowcase() {
               <button
                 key={p.id}
                 onClick={() => go(i)}
-                className="transition-all duration-300 rounded-full"
+                className="transition-all duration-300 rounded-full cursor-pointer"
                 style={{
                   width: i === activeIdx ? 24 : 6,
                   height: 6,
@@ -686,7 +787,7 @@ export default function ProjectShowcase() {
 
           <button
             onClick={() => go(activeIdx + 1)}
-            className="w-9 h-9 glass-icon rounded-full flex items-center justify-center transition-all text-white/50 hover:text-white"
+            className="w-9 h-9 glass-icon rounded-full flex items-center justify-center transition-all text-white/50 hover:text-white cursor-pointer"
           >
             <ChevronRight className="w-4 h-4" />
           </button>
