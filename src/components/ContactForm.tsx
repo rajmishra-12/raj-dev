@@ -47,7 +47,7 @@ export default function ContactForm() {
           value={formState.name}
           onChange={(e) => setFormState({ ...formState, name: e.target.value })}
           placeholder="e.g. John Doe"
-          className="w-full glass-frost rounded-xl px-4 py-3 text-sm text-white placeholder-white/20 focus:outline-none focus:border-primary-accent/50 transition-all font-sans"
+          className="w-full glass-frost rounded-xl px-4 py-3 text-sm text-white placeholder-white/20 focus:outline-none focus:ring-2 focus:ring-primary-accent/40 focus:border-primary-accent transition-all font-sans"
         />
       </div>
 
@@ -62,7 +62,7 @@ export default function ContactForm() {
           value={formState.email}
           onChange={(e) => setFormState({ ...formState, email: e.target.value })}
           placeholder="e.g. john@example.com"
-          className="w-full glass-frost rounded-xl px-4 py-3 text-sm text-white placeholder-white/20 focus:outline-none focus:border-primary-accent/50 transition-all font-sans"
+          className="w-full glass-frost rounded-xl px-4 py-3 text-sm text-white placeholder-white/20 focus:outline-none focus:ring-2 focus:ring-primary-accent/40 focus:border-primary-accent transition-all font-sans"
         />
       </div>
 
@@ -77,7 +77,7 @@ export default function ContactForm() {
           value={formState.message}
           onChange={(e) => setFormState({ ...formState, message: e.target.value })}
           placeholder="Describe your project, timeline, and goals..."
-          className="w-full glass-frost rounded-xl px-4 py-3 text-sm text-white placeholder-white/20 focus:outline-none focus:border-primary-accent/50 transition-all font-sans resize-none"
+          className="w-full glass-frost rounded-xl px-4 py-3 text-sm text-white placeholder-white/20 focus:outline-none focus:ring-2 focus:ring-primary-accent/40 focus:border-primary-accent transition-all font-sans resize-none"
         />
       </div>
 

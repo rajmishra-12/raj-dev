@@ -10,6 +10,7 @@ import {
   Globe,
   Mail,
   FileText,
+  Phone,
   ExternalLink,
   ChevronRight,
   Sparkles
@@ -21,7 +22,6 @@ import SmoothScroll from "@/components/SmoothScroll";
 import HeroScene from "@/components/HeroScene";
 import GalaxyScene from "@/components/GalaxyScene";
 import Timeline from "@/components/Timeline";
-import ProjectModal, { Project } from "@/components/ProjectModal";
 import ProjectShowcase from "@/components/ProjectShowcase";
 import ContactForm from "@/components/ContactForm";
 import CustomCursor from "@/components/CustomCursor";
@@ -30,87 +30,6 @@ import ConsoleLogs from "@/components/ConsoleLogs";
 import SystemMetrics from "@/components/SystemMetrics";
 
 export default function Home() {
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-
-  const projects: Project[] = [
-    {
-      title: "Main Street Media",
-      category: "Media Platform",
-      shortDesc: "In-App Purchases, Push Notifications, Deep Linking, and Premium Content",
-      techStack: ["Flutter", "Dart", "StoreKit", "FCM", "GoRouter", "Bloc"],
-      architecture: "Feature-driven Clean Architecture with Bloc state routing.",
-      challenges: "Synchronizing subscription state dynamically with Apple StoreKit & Google Play billing services under varying network coverage.",
-      achievements: "Built real-time dynamic paywalls causing a 25% conversion increase; integrated push notifications which boosted daily activity by 35%.",
-      details: "A premium entertainment app providing real-time streaming videos, exclusive creator portals, and automated offline media downloads.",
-      mockupBg: "from-blue-600 to-indigo-900"
-    },
-    {
-      title: "Medentum Diagnostick",
-      category: "Healthcare IoT",
-      shortDesc: "BLE Medical Devices, OpenAI Disease Analysis, and Camera Integration",
-      techStack: ["Flutter", "BLE/GATT", "OpenAI API", "Riverpod", "Camera API"],
-      architecture: "Layered Domain/Repository pattern with Riverpod provider hooks.",
-      challenges: "Handling raw byte packets from medical monitoring hardware without dropping values or freezing the active UI thread.",
-      achievements: "Achieved seamless live GATT data streaming; built local scanning flows with instant AI diagnostics powered by GPT models.",
-      details: "A medical companion application designed to connect securely to patient monitors, collect vital signs, and provide instant insights.",
-      mockupBg: "from-emerald-600 to-teal-900"
-    },
-    {
-      title: "Zembora",
-      category: "Ride Sharing",
-      shortDesc: "Google Maps, Socket.IO, and AI Trip Assistance",
-      techStack: ["Flutter", "Socket.IO", "Google Maps SDK", "Node.js", "Express"],
-      architecture: "Event-driven real-time synchronized architecture.",
-      challenges: "Synchronizing driver and rider states instantly across weak cell towers; resolving accurate route matches using complex waypoints.",
-      achievements: "Scaled Socket.IO server channels; engineered route prediction reducing average rider pick-up times by 18%.",
-      details: "A comprehensive ride-sharing ecosystem featuring live maps, automated fare splits, driver match scoring, and route navigation.",
-      mockupBg: "from-purple-700 to-indigo-950"
-    },
-    {
-      title: "Orra",
-      category: "Dating App",
-      shortDesc: "Real-time Chat, Swipe Matching, and Media Sharing",
-      techStack: ["Flutter", "Firebase Auth", "Socket.IO", "Cubit", "WebRTC"],
-      architecture: "Reactive Cubit state machines with local persistence.",
-      challenges: "Preventing lag on gesture-driven cards rendering dynamic image arrays; optimizing video call pipeline codecs.",
-      achievements: "Created custom swiping stack view rendering at 60 FPS; implemented audio/video peer connections via WebRTC.",
-      details: "A premium dating app designed for instantaneous matching, text messaging, media sharing, and high-fidelity video chat.",
-      mockupBg: "from-pink-600 to-rose-950"
-    },
-    {
-      title: "Sathee",
-      category: "Education Platform",
-      shortDesc: "100K+ Downloads and Performance Optimization",
-      techStack: ["Flutter", "Riverpod", "SQLite", "Firebase", "WebViews"],
-      architecture: "Domain-driven design with decoupled local database caching.",
-      challenges: "Rendering large analytical charts and tables efficiently on older budget Android devices with low memory.",
-      achievements: "Scaled the application past 100,000 organic downloads; improved overall frame render time by 42%.",
-      details: "An outreach educational application delivering course content, automated assessments, mock exams, and video lessons.",
-      mockupBg: "from-cyan-600 to-sky-900"
-    },
-    {
-      title: "Prutor Games",
-      category: "Gamified Learning",
-      shortDesc: "40+ Educational Games built with Supabase",
-      techStack: ["Flutter", "Custom Canvas", "Supabase", "AudioPlayers"],
-      architecture: "Component-based micro-game engine framework.",
-      challenges: "Standardizing inputs, states, and scores across 40 distinct games to log leaderboard metrics in real-time.",
-      achievements: "Delivered 40+ interactive games within a single responsive app wrapper; achieved live scoreboard updates under 100ms.",
-      details: "An educational gaming portal created to teach programming, mathematics, and logic concepts via bite-sized interactive games.",
-      mockupBg: "from-amber-600 to-orange-900"
-    },
-    {
-      title: "Trop C'est Trop",
-      category: "NGO Platform",
-      shortDesc: "Community Feed, Notifications, and Firebase Integration",
-      techStack: ["Flutter", "Firestore", "Firebase Cloud Functions", "FCM"],
-      architecture: "Model-View-Controller (MVC) architecture with event publishers.",
-      challenges: "Synchronizing media feeds containing images and videos on extremely low bandwidth cellular connections.",
-      achievements: "Created progressive image loader and media optimizer; enabled real-time global notification feed for critical NGO updates.",
-      details: "A social outreach utility app for a prominent NGO, letting members read feeds, join campaigns, and communicate in real-time.",
-      mockupBg: "from-red-600 to-zinc-900"
-    }
-  ];
 
   return (
     <div className="relative w-full z-10">
@@ -323,6 +242,59 @@ export default function Home() {
                 <p className="text-sm text-white/75 leading-relaxed font-sans">{card.desc}</p>
               </motion.div>
             ))}
+
+            {/* Education & Achievements Sub-Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 border-t border-white/5">
+              {/* Education */}
+              <div className="space-y-4">
+                <h4 className="text-xs uppercase tracking-widest text-primary-accent font-bold">Academic Base</h4>
+                
+                <div className="glass-card p-4 rounded-xl border border-white/5 space-y-2">
+                  <div className="flex justify-between items-start">
+                    <span className="text-xs font-bold text-white leading-tight">B.Tech in Artificial Intelligence</span>
+                    <span className="text-[9px] font-mono text-white/40">2021 – 2025</span>
+                  </div>
+                  <p className="text-[10px] text-white/50">DPG Institute of Technology & Management, Gurgaon</p>
+                  <div className="text-[10px] text-secondary-accent font-mono">CGPA: 8.1 / 10.0</div>
+                </div>
+
+                <div className="glass-card p-4 rounded-xl border border-white/5 space-y-2">
+                  <div className="flex justify-between items-start">
+                    <span className="text-xs font-bold text-white leading-tight">Class XII (Non-Medical Science)</span>
+                    <span className="text-[9px] font-mono text-white/40">2019 – 2021</span>
+                  </div>
+                  <p className="text-[10px] text-white/50">Government Co-Ed Senior Secondary School, Dwarka Sec-21, New Delhi</p>
+                  <div className="text-[10px] text-secondary-accent font-mono">Score: 90%</div>
+                </div>
+              </div>
+
+              {/* Achievements */}
+              <div className="space-y-4">
+                <h4 className="text-xs uppercase tracking-widest text-secondary-accent font-bold font-display">Key Achievements</h4>
+                <div className="glass-card p-4 rounded-xl border border-white/5 space-y-3 text-[11px] text-white/70">
+                  <div className="flex items-start gap-2">
+                    <span className="text-secondary-accent mt-0.5">✦</span>
+                    <p>Shipped 20+ production mobile apps across iOS, Android, and Web platforms.</p>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="text-secondary-accent mt-0.5">✦</span>
+                    <p>Contributed to apps with a combined user install base exceeding 110K+ downloads.</p>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="text-secondary-accent mt-0.5">✦</span>
+                    <p>Developed BLE integration for real-time biometric monitoring in live production apps.</p>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="text-secondary-accent mt-0.5">✦</span>
+                    <p>Built OpenAI-powered features across multiple live client projects.</p>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="text-secondary-accent mt-0.5">✦</span>
+                    <p>Established scalable Riverpod & Bloc architectures to optimize development velocity.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -462,7 +434,7 @@ export default function Home() {
 
             <div className="space-y-4">
               <a
-                href="mailto:rajmishra.dev@gmail.com"
+                href="mailto:rajrm121212@gmail.com"
                 className="flex items-center gap-4 p-4 rounded-xl glass-frost transition-all duration-300 group"
               >
                 <div className="w-10 h-10 glass-icon flex items-center justify-center text-primary-accent group-hover:scale-105 transition-transform">
@@ -470,7 +442,20 @@ export default function Home() {
                 </div>
                 <div>
                   <span className="block text-[10px] uppercase tracking-widest text-white/40 font-bold">Email Address</span>
-                  <span className="text-sm font-semibold text-white">rajmishra.dev@gmail.com</span>
+                  <span className="text-sm font-semibold text-white">rajrm121212@gmail.com</span>
+                </div>
+              </a>
+
+              <a
+                href="tel:+919315689629"
+                className="flex items-center gap-4 p-4 rounded-xl glass-frost transition-all duration-300 group"
+              >
+                <div className="w-10 h-10 glass-icon flex items-center justify-center text-secondary-accent group-hover:scale-105 transition-transform">
+                  <Phone className="w-5 h-5" />
+                </div>
+                <div>
+                  <span className="block text-[10px] uppercase tracking-widest text-white/40 font-bold">Phone Number</span>
+                  <span className="text-sm font-semibold text-white">+91-9315689629</span>
                 </div>
               </a>
 
@@ -519,11 +504,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Cinematic Modal details display */}
-      <ProjectModal
-        project={selectedProject}
-        onClose={() => setSelectedProject(null)}
-      />
     </div>
   );
 }
