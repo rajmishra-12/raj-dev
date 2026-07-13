@@ -29,11 +29,11 @@ export default function SystemMetrics() {
       <div className="flex-1 space-y-4 pt-2">
         {/* FPS & Latency Grid */}
         <div className="grid grid-cols-2 gap-3">
-          <div className="bg-white/5 rounded-lg p-2 border border-white/5 text-center">
+          <div className="glass-frost rounded-lg p-2 text-center">
             <span className="block text-[8px] uppercase tracking-wider text-white/40">Render Loop</span>
             <span className="text-sm font-bold text-white font-mono">{fps} FPS</span>
           </div>
-          <div className="bg-white/5 rounded-lg p-2 border border-white/5 text-center">
+          <div className="glass-frost rounded-lg p-2 text-center">
             <span className="block text-[8px] uppercase tracking-wider text-white/40">UI Thread</span>
             <span className="text-sm font-bold text-primary-accent font-mono">1.6 ms</span>
           </div>

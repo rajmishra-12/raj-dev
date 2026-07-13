@@ -14,6 +14,20 @@
   --foreground: #ffffff;
   --primary-accent: #4F8CFF;
   --secondary-accent: #6FE7FF;
+  /* iOS Liquid Glass tokens */
+  --glass-bg: rgba(255, 255, 255, 0.04);
+  --glass-bg-hover: rgba(255, 255, 255, 0.08);
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --glass-border-hover: rgba(255, 255, 255, 0.22);
+  --glass-highlight: rgba(255, 255, 255, 0.15);
+  --glass-blur: 28px;
+  --glass-saturation: 1.8;
+  --glass-radius: 20px;
+  /* Iridescent / prismatic edge colors */
+  --prism-1: rgba(79, 140, 255, 0.35);
+  --prism-2: rgba(111, 231, 255, 0.3);
+  --prism-3: rgba(180, 130, 255, 0.25);
+  --prism-4: rgba(255, 180, 200, 0.2);
 }
 
 body {
@@ -24,30 +38,243 @@ body {
   position: relative;
 }
 
-/* Glassmorphism custom classes */
+/* ═══════════════════════════════════════════════════════
+   APPLE iOS 26 LIQUID GLASS — UI ELEMENT TREATMENT
+   Frosted glass panels with prismatic iridescent edges,
+   specular highlights, and see-through refraction
+   ═══════════════════════════════════════════════════════ */
+
+/* 
+   .glass-panel — Navigation bar, sticky headers
+   High transparency, heavy blur, content visible through it
+*/
 .glass-panel {
-  background: rgba(17, 17, 17, 0.65);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+  border: 0.5px solid var(--glass-border);
+  /* iOS specular highlight on top edge + prismatic shimmer */
+  box-shadow:
+    /* Top edge specular — the signature iOS "light catching" line */
+    inset 0 0.5px 0 0 var(--glass-highlight),
+    /* Bottom subtle separator */
+    inset 0 -0.5px 0 0 rgba(255, 255, 255, 0.03),
+    /* Prismatic iridescent glow around edges */
+    0 0 0 0.5px rgba(79, 140, 255, 0.08),
+    /* Depth shadow */
+    0 8px 32px -8px rgba(0, 0, 0, 0.5);
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* 
+   .glass-card — Content cards, project tiles, info panels
+   The main "liquid glass" surface with full effect
+*/
 .glass-card {
-  background: rgba(17, 17, 17, 0.4);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.7);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+  border: 0.5px solid var(--glass-border);
+  border-radius: var(--glass-radius);
+  position: relative;
+  overflow: hidden;
+  /* Specular highlights + prismatic edge glow */
+  box-shadow:
+    /* Top-left specular highlight — simulates curved glass catching light */
+    inset 0 0.5px 0 0 var(--glass-highlight),
+    inset 0.5px 0 0 0 rgba(255, 255, 255, 0.06),
+    /* Inner prismatic refraction glow */
+    inset 0 0 30px rgba(79, 140, 255, 0.015),
+    /* Outer iridescent border glow */
+    0 0 0 0.5px rgba(111, 231, 255, 0.06),
+    /* Depth shadow — soft, diffused */
+    0 4px 24px -4px rgba(0, 0, 0, 0.4),
+    0 12px 40px -12px rgba(0, 0, 0, 0.3);
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* Prismatic top edge shimmer — animated iridescent line */
+.glass-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--prism-1) 15%,
+    var(--prism-2) 35%,
+    var(--prism-3) 55%,
+    var(--prism-4) 75%,
+    var(--prism-1) 90%,
+    transparent 100%
+  );
+  opacity: 0.5;
+  transition: opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 1;
+}
+
+/* Internal specular highlight — top-left light reflection */
+.glass-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.03) 0%,
+    transparent 100%
+  );
+  border-radius: var(--glass-radius) var(--glass-radius) 0 0;
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Hover state — glass brightens, prismatic edge intensifies */
 .glass-card:hover {
-  border-color: rgba(79, 140, 255, 0.3);
-  background: rgba(17, 17, 17, 0.6);
-  box-shadow: 0 15px 45px -10px rgba(79, 140, 255, 0.15);
+  background: var(--glass-bg-hover);
+  border-color: var(--glass-border-hover);
+  box-shadow:
+    inset 0 0.5px 0 0 rgba(255, 255, 255, 0.2),
+    inset 0.5px 0 0 0 rgba(255, 255, 255, 0.08),
+    inset 0 0 40px rgba(79, 140, 255, 0.025),
+    0 0 0 0.5px rgba(111, 231, 255, 0.12),
+    0 0 20px rgba(79, 140, 255, 0.06),
+    0 8px 32px -8px rgba(0, 0, 0, 0.5),
+    0 16px 48px -16px rgba(0, 0, 0, 0.3);
+  transform: translateY(-1px);
 }
 
-/* Gradient text */
+.glass-card:hover::before {
+  opacity: 0.9;
+}
+
+/* 
+   .glass-frost — Lighter frosted elements: buttons, badges, tags
+   More subtle, thinner feel
+*/
+.glass-frost {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px) saturate(1.5);
+  -webkit-backdrop-filter: blur(20px) saturate(1.5);
+  border: 0.5px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    inset 0 0.5px 0 0 rgba(255, 255, 255, 0.12),
+    0 0 0 0.5px rgba(255, 255, 255, 0.04),
+    0 2px 8px -2px rgba(0, 0, 0, 0.3);
+  transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.glass-frost:hover {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow:
+    inset 0 0.5px 0 0 rgba(255, 255, 255, 0.18),
+    0 0 0 0.5px rgba(111, 231, 255, 0.08),
+    0 4px 16px -4px rgba(0, 0, 0, 0.3);
+}
+
+/* 
+   .glass-deep — Deep frosted panels: modals, contact section
+   Heavier tint for readability over complex backgrounds
+*/
+.glass-deep {
+  background: rgba(8, 8, 12, 0.55);
+  backdrop-filter: blur(40px) saturate(2.0);
+  -webkit-backdrop-filter: blur(40px) saturate(2.0);
+  border: 0.5px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    inset 0 0.5px 0 0 rgba(255, 255, 255, 0.08),
+    inset 0 0 60px rgba(79, 140, 255, 0.01),
+    0 0 0 0.5px rgba(79, 140, 255, 0.05),
+    0 24px 80px -20px rgba(0, 0, 0, 0.7);
+}
+
+/* ═══════════════════════════════════════════════════════
+   iOS LIQUID GLASS — INTERACTIVE ELEMENTS
+   Buttons, pills, icon containers
+   ═══════════════════════════════════════════════════════ */
+
+/* Liquid glass pill button — like iOS action buttons */
+.glass-pill {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(24px) saturate(1.6);
+  -webkit-backdrop-filter: blur(24px) saturate(1.6);
+  border: 0.5px solid rgba(255, 255, 255, 0.15);
+  border-radius: 100px;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    inset 0 0.5px 0 0 rgba(255, 255, 255, 0.15),
+    0 0 0 0.5px rgba(255, 255, 255, 0.05),
+    0 2px 8px -2px rgba(0, 0, 0, 0.3);
+  transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.glass-pill::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, transparent 100%);
+  border-radius: 100px 100px 0 0;
+  pointer-events: none;
+}
+
+.glass-pill:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: scale(1.02);
+  box-shadow:
+    inset 0 0.5px 0 0 rgba(255, 255, 255, 0.2),
+    0 0 0 0.5px rgba(111, 231, 255, 0.1),
+    0 4px 16px -4px rgba(0, 0, 0, 0.4);
+}
+
+/* Liquid glass icon container — circular frosted glass */
+.glass-icon {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  border: 0.5px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    inset 0 0.5px 0 0 rgba(255, 255, 255, 0.12),
+    0 2px 6px -2px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.glass-icon::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, transparent 100%);
+  border-radius: 12px 12px 0 0;
+  pointer-events: none;
+}
+
+.glass-icon:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+/* ═══════════════════════════════════════════════════════
+   GRADIENT TEXT
+   ═══════════════════════════════════════════════════════ */
+
 .text-gradient-primary {
   background: linear-gradient(135deg, #ffffff 30%, #4F8CFF 100%);
   -webkit-background-clip: text;
@@ -60,20 +287,43 @@ body {
   -webkit-text-fill-color: transparent;
 }
 
-/* Custom scrollbar */
+/* ═══════════════════════════════════════════════════════
+   iOS-SMOOTH TRANSITIONS
+   All UI elements get buttery transitions by default
+   ═══════════════════════════════════════════════════════ */
+
+/* Let Lenis handle scroll; no native scroll-behavior */
+* {
+  scroll-behavior: auto;
+}
+
+/* Smooth section transitions for parallax feel */
+section {
+  transition: transform 0.1s linear;
+  will-change: transform;
+}
+
+/* All interactive elements get smooth transitions */
+a, button, input, textarea, select {
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ═══════════════════════════════════════════════════════
+   CUSTOM SCROLLBAR — thin frosted iOS look
+   ═══════════════════════════════════════════════════════ */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #050505;
+  background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #222;
-  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #4F8CFF;
+  background: rgba(255, 255, 255, 0.25);
 }
 
 /* Timeline Custom styles */
@@ -85,7 +335,9 @@ body {
   scrollbar-width: none;
 }
 
-/* Lenis smooth scrolling configuration */
+/* ═══════════════════════════════════════════════════════
+   LENIS SMOOTH SCROLLING
+   ═══════════════════════════════════════════════════════ */
 html.lenis, html.lenis body {
   height: auto;
 }
@@ -100,4 +352,49 @@ html.lenis, html.lenis body {
 }
 .lenis-scrolling iframe {
   pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════════════
+   PRISMATIC SHIMMER ANIMATION
+   For animated iridescent effects on glass edges
+   ═══════════════════════════════════════════════════════ */
+
+@keyframes prismatic-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Utility: apply animated prismatic border to any element */
+.liquid-border {
+  position: relative;
+}
+
+.liquid-border::before {
+  content: "";
+  position: absolute;
+  inset: -0.5px;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--prism-1) 20%,
+    var(--prism-2) 40%,
+    var(--prism-3) 60%,
+    var(--prism-4) 80%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: prismatic-shift 8s ease-in-out infinite;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  padding: 0.5px;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.5;
 }

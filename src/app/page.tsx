@@ -17,6 +17,7 @@ import {
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import CanvasBackground from "@/components/CanvasBackground";
 import SmoothScroll from "@/components/SmoothScroll";
+
 import HeroScene from "@/components/HeroScene";
 import GalaxyScene from "@/components/GalaxyScene";
 import Timeline from "@/components/Timeline";
@@ -115,6 +116,7 @@ export default function Home() {
     <div className="relative w-full z-10">
       <CustomCursor />
       <CanvasBackground />
+
       <SmoothScroll />
 
       {/* Header Glass Navigation */}
@@ -133,11 +135,11 @@ export default function Home() {
           </motion.div>
 
           <nav className="hidden md:flex items-center gap-8 text-xs uppercase tracking-widest text-white/60">
-            <a href="#about" className="hover:text-white transition-colors">About</a>
-            <a href="#skills" className="hover:text-white transition-colors">Galaxy</a>
-            <a href="#timeline" className="hover:text-white transition-colors">Experience</a>
-            <a href="#projects" className="hover:text-white transition-colors">Projects</a>
-            <a href="#contact" className="hover:text-white transition-colors">Contact</a>
+            <a href="#about" className="hover:text-white transition-all duration-300">About</a>
+            <a href="#skills" className="hover:text-white transition-all duration-300">Galaxy</a>
+            <a href="#timeline" className="hover:text-white transition-all duration-300">Experience</a>
+            <a href="#projects" className="hover:text-white transition-all duration-300">Projects</a>
+            <a href="#contact" className="hover:text-white transition-all duration-300">Contact</a>
           </nav>
 
           <div className="flex items-center gap-3">
@@ -146,7 +148,7 @@ export default function Home() {
               href="#contact"
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="px-4 py-2 rounded-full border border-white/10 hover:border-primary-accent/40 text-xs font-semibold hover:bg-white/5 transition-all text-white/90"
+              className="px-4 py-2 glass-pill text-xs font-semibold text-white/90"
             >
               Let&apos;s Connect
             </motion.a>
@@ -164,7 +166,7 @@ export default function Home() {
               <motion.div
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-primary-accent/10 border border-primary-accent/25 text-[10px] font-semibold text-primary-accent uppercase tracking-wider"
+                className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full glass-frost text-[10px] font-semibold text-primary-accent uppercase tracking-wider"
               >
                 <Sparkles className="w-3 h-3" />
                 <span>Available for Enterprise Roles</span>
@@ -200,7 +202,7 @@ export default function Home() {
                   <span>Showcase</span>
                   <ChevronRight className="w-3.5 h-3.5" />
                 </a>
-                <a href="#contact" className="px-4 py-2 rounded bg-white/5 hover:bg-white/10 border border-white/10 text-white font-semibold text-xs transition-all">
+                <a href="#contact" className="px-4 py-2 rounded-xl glass-frost text-white font-semibold text-xs flex items-center gap-1">
                   <span>Connect</span>
                 </a>
               </motion.div>
@@ -215,7 +217,7 @@ export default function Home() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8 }}
-            className="lg:col-span-5 w-full h-[400px] lg:h-auto min-h-[450px] flex items-center justify-center relative bg-white/[0.01] rounded-2xl border border-white/5 overflow-hidden"
+            className="lg:col-span-5 w-full h-[400px] lg:h-auto min-h-[450px] flex items-center justify-center relative glass-card overflow-hidden"
           >
             <div className="absolute top-4 left-4 font-mono text-[8px] uppercase tracking-wider text-white/30 z-20">
               3D VIEWPORT // EXPLODE ON SCROLL
@@ -378,7 +380,7 @@ export default function Home() {
               className="glass-card p-6 rounded-xl flex flex-col justify-between"
             >
               <div>
-                <div className="w-10 h-10 rounded-lg bg-primary-accent/10 border border-primary-accent/25 flex items-center justify-center mb-4">
+                <div className="w-10 h-10 glass-icon flex items-center justify-center mb-4">
                   <cat.icon className="w-5 h-5 text-primary-accent" />
                 </div>
                 <h4 className="text-lg font-bold font-display text-white mb-4">{cat.title}</h4>
@@ -434,7 +436,7 @@ export default function Home() {
             { count: "1000+", label: "Git Commits" },
             { count: "Infinite ☕", label: "Cups of Coffee" }
           ].map((metric, i) => (
-            <div key={i} className="p-4 glass-card rounded-lg">
+            <div key={i} className="p-4 glass-frost rounded-lg">
               <h4 className="text-3xl font-extrabold font-display text-gradient-secondary mb-1">{metric.count}</h4>
               <p className="text-[10px] uppercase tracking-widest text-white/50 font-bold">{metric.label}</p>
             </div>
@@ -443,7 +445,7 @@ export default function Home() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-24 px-6 max-w-6xl mx-auto min-h-[80vh] flex flex-col justify-center relative z-10 bg-zinc-950/80 border border-white/5 rounded-3xl my-12">
+      <section id="contact" className="py-24 px-6 max-w-6xl mx-auto min-h-[80vh] flex flex-col justify-center relative z-10 glass-deep rounded-3xl my-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-stretch">
           
           {/* Contact Details */}
@@ -461,9 +463,9 @@ export default function Home() {
             <div className="space-y-4">
               <a
                 href="mailto:rajmishra.dev@gmail.com"
-                className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10 hover:border-primary-accent/40 hover:bg-white/10 transition-all group"
+                className="flex items-center gap-4 p-4 rounded-xl glass-frost transition-all duration-300 group"
               >
-                <div className="w-10 h-10 rounded-lg bg-primary-accent/10 flex items-center justify-center text-primary-accent group-hover:scale-105 transition-transform">
+                <div className="w-10 h-10 glass-icon flex items-center justify-center text-primary-accent group-hover:scale-105 transition-transform">
                   <Mail className="w-5 h-5" />
                 </div>
                 <div>
@@ -476,9 +478,9 @@ export default function Home() {
                 href="https://linkedin.com/in/rajmishra-dev"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10 hover:border-primary-accent/40 hover:bg-white/10 transition-all group"
+                className="flex items-center gap-4 p-4 rounded-xl glass-frost transition-all duration-300 group"
               >
-                <div className="w-10 h-10 rounded-lg bg-primary-accent/10 flex items-center justify-center text-primary-accent group-hover:scale-105 transition-transform">
+                <div className="w-10 h-10 glass-icon flex items-center justify-center text-primary-accent group-hover:scale-105 transition-transform">
                   <FaLinkedin className="w-5 h-5" />
                 </div>
                 <div>
@@ -491,9 +493,9 @@ export default function Home() {
                 href="https://github.com/rajmishra-dev"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10 hover:border-primary-accent/40 hover:bg-white/10 transition-all group"
+                className="flex items-center gap-4 p-4 rounded-xl glass-frost transition-all duration-300 group"
               >
-                <div className="w-10 h-10 rounded-lg bg-primary-accent/10 flex items-center justify-center text-primary-accent group-hover:scale-105 transition-transform">
+                <div className="w-10 h-10 glass-icon flex items-center justify-center text-primary-accent group-hover:scale-105 transition-transform">
                   <FaGithub className="w-5 h-5" />
                 </div>
                 <div>
