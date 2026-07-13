@@ -16,6 +16,14 @@ export default function SmoothScroll() {
       infinite: false,
     });
 
+    const resizeObserver = new ResizeObserver(() => {
+      lenis.resize();
+    });
+    
+    if (document.body) {
+      resizeObserver.observe(document.body);
+    }
+
     function raf(time: number) {
       lenis.raf(time);
       requestAnimationFrame(raf);
@@ -24,6 +32,7 @@ export default function SmoothScroll() {
     requestAnimationFrame(raf);
 
     return () => {
+      resizeObserver.disconnect();
       lenis.destroy();
     };
   }, []);

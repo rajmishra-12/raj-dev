@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { Send, CheckCircle2 } from "lucide-react";
-import confetti from "canvas-confetti";
 
 export default function ContactForm() {
   const [formState, setFormState] = useState({ name: "", email: "", message: "" });
@@ -15,14 +14,19 @@ export default function ContactForm() {
     setStatus("sending");
     
     // Simulate API request
-    setTimeout(() => {
+    setTimeout(async () => {
       setStatus("success");
-      confetti({
-        particleCount: 150,
-        spread: 80,
-        origin: { y: 0.6 },
-        colors: ["#4F8CFF", "#6FE7FF", "#ffffff"],
-      });
+      try {
+        const confetti = (await import("canvas-confetti")).default;
+        confetti({
+          particleCount: 150,
+          spread: 80,
+          origin: { y: 0.6 },
+          colors: ["#4F8CFF", "#6FE7FF", "#ffffff"],
+        });
+      } catch (err) {
+        console.error("Confetti error:", err);
+      }
       setFormState({ name: "", email: "", message: "" });
       
       // Reset back to idle after a few seconds

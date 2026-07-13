@@ -21,6 +21,7 @@ import HeroScene from "@/components/HeroScene";
 import GalaxyScene from "@/components/GalaxyScene";
 import Timeline from "@/components/Timeline";
 import ProjectModal, { Project } from "@/components/ProjectModal";
+import ProjectShowcase from "@/components/ProjectShowcase";
 import ContactForm from "@/components/ContactForm";
 import CustomCursor from "@/components/CustomCursor";
 import SoundManager from "@/components/SoundManager";
@@ -111,7 +112,7 @@ export default function Home() {
   ];
 
   return (
-    <div className="relative min-h-screen z-10">
+    <div className="relative w-full z-10">
       <CustomCursor />
       <CanvasBackground />
       <SmoothScroll />
@@ -278,7 +279,7 @@ export default function Home() {
       </section>
 
       {/* Storytelling About Section */}
-      <section id="about" className="py-24 px-6 relative max-w-6xl mx-auto">
+      <section id="about" className="py-12 px-6 relative max-w-6xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           <div className="lg:col-span-4 sticky top-24">
             <span className="text-xs uppercase tracking-widest text-primary-accent font-bold mb-2 block">The Journey</span>
@@ -325,9 +326,9 @@ export default function Home() {
       </section>
 
       {/* Tech Stack Orbiting Galaxy Section */}
-      <section id="skills" className="py-20 px-6 bg-gradient-to-b from-transparent via-white/[0.01] to-transparent border-y border-white/5">
+      <section id="skills" className="py-8 px-6 bg-gradient-to-b from-transparent via-white/[0.01] to-transparent border-y border-white/5">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center max-w-2xl mx-auto mb-12">
+          <div className="text-center max-w-2xl mx-auto mb-6">
             <span className="text-xs uppercase tracking-widest text-primary-accent font-bold mb-2 block">Interactive Visualization</span>
             <h2 className="text-3xl md:text-5xl font-bold font-display text-gradient-primary mb-4">
               Galaxy of Technologies
@@ -337,7 +338,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="w-full bg-zinc-950/20 rounded-2xl border border-white/5 overflow-hidden">
+          <div className="w-full bg-zinc-950/20 rounded-2xl border border-white/5" style={{ overflow: 'visible' }}>
             <GalaxyScene />
           </div>
         </div>
@@ -410,68 +411,21 @@ export default function Home() {
       </section>
 
       {/* Featured Projects Section */}
-      <section id="projects" className="py-24 px-6 max-w-6xl mx-auto">
-        <div className="text-center max-w-xl mx-auto mb-16">
+      <section id="projects" className="py-16 px-6 max-w-7xl mx-auto relative overflow-hidden">
+        <div className="text-center max-w-xl mx-auto mb-10">
           <span className="text-xs uppercase tracking-widest text-primary-accent font-bold mb-2 block">Case Studies</span>
           <h2 className="text-4xl font-bold font-display text-gradient-primary mb-4">
             Production Products
           </h2>
           <p className="text-sm text-white/60 font-sans">
-            Every app represents a journey solving real user friction with custom state design, layout optimizations, and reliable pipelines.
+            Every app represents a journey solving real user friction. Explore any project to see the architecture, challenges, and business impact.
           </p>
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((project, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              onClick={() => setSelectedProject(project)}
-              className="glass-card rounded-xl p-5 cursor-pointer flex flex-col justify-between group"
-            >
-              <div>
-                {/* Simulated visual thumbnail preview */}
-                <div className={`w-full h-40 rounded-lg bg-gradient-to-br ${project.mockupBg} mb-4 relative overflow-hidden flex items-center justify-center border border-white/5`}>
-                  <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-300" />
-                  <Smartphone className="w-10 h-10 text-white/70 group-hover:scale-110 transition-transform duration-300 drop-shadow-md" />
-                </div>
-
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-[10px] uppercase tracking-widest text-primary-accent font-bold">{project.category}</span>
-                  <ExternalLink className="w-3.5 h-3.5 text-white/30 group-hover:text-white transition-colors" />
-                </div>
-
-                <h3 className="text-xl font-bold font-display text-white mb-2 group-hover:text-primary-accent transition-colors">
-                  {project.title}
-                </h3>
-                
-                <p className="text-xs text-white/60 leading-relaxed font-sans mb-4">
-                  {project.shortDesc}
-                </p>
-              </div>
-
-              <div className="flex flex-wrap gap-1 mt-auto">
-                {project.techStack.slice(0, 3).map((tech, idx) => (
-                  <span key={idx} className="text-[10px] px-1.5 py-0.5 rounded bg-white/5 text-white/40 font-mono">
-                    {tech}
-                  </span>
-                ))}
-                {project.techStack.length > 3 && (
-                  <span className="text-[10px] px-1.5 py-0.5 rounded bg-white/5 text-white/40 font-mono">
-                    +{project.techStack.length - 3}
-                  </span>
-                )}
-              </div>
-            </motion.div>
-          ))}
-        </div>
+        <ProjectShowcase />
       </section>
 
       {/* Interactive Metrics Counter Section */}
-      <section className="py-20 px-6 bg-white/[0.01] border-y border-white/5">
+      <section className="py-20 px-6 bg-white/[0.01] border-y border-white/5 relative z-10">
         <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-5 gap-6 text-center">
           {[
             { count: "20+", label: "Apps Built" },
@@ -489,7 +443,7 @@ export default function Home() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-24 px-6 max-w-6xl mx-auto">
+      <section id="contact" className="py-24 px-6 max-w-6xl mx-auto min-h-[80vh] flex flex-col justify-center relative z-10 bg-zinc-950/80 border border-white/5 rounded-3xl my-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-stretch">
           
           {/* Contact Details */}
