@@ -53,14 +53,14 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 30, scale: 0.95 }}
             transition={{ type: "spring", damping: 30, stiffness: 300 }}
-            className="relative w-full max-w-4xl glass-panel rounded-2xl overflow-hidden z-10 shadow-2xl flex flex-col md:flex-row max-h-[85vh] md:max-h-[80vh] border border-white/10"
+            className="relative w-full max-w-4xl glass-deep rounded-2xl overflow-hidden z-10 shadow-2xl flex flex-col md:flex-row max-h-[85vh] md:max-h-[80vh]"
           >
             {/* Visual device/gradient column */}
             <div className={`w-full md:w-2/5 p-6 flex flex-col justify-between items-center text-center relative overflow-hidden bg-gradient-to-br ${project.mockupBg}`}>
               <div className="absolute inset-0 bg-black/10 mix-blend-overlay" />
               
               <div className="relative z-10">
-                <span className="px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider bg-white/20 text-white backdrop-blur-sm">
+                <span className="px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider glass-frost text-white">
                   {project.category}
                 </span>
                 <h3 className="text-3xl font-bold font-display mt-3 text-white drop-shadow-md">
@@ -88,7 +88,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
               {/* Close Button */}
               <button
                 onClick={onClose}
-                className="absolute top-4 right-4 p-2 rounded-full hover:bg-white/10 transition-colors z-20 text-white/70 hover:text-white"
+                className="absolute top-4 right-4 p-2 glass-icon rounded-full transition-all z-20 text-white/70 hover:text-white"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -106,7 +106,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                     {project.techStack.map((tech, i) => (
                       <span
                         key={i}
-                        className="px-2 py-0.5 rounded text-xs bg-white/5 border border-white/10 text-white/80"
+                        className="px-2 py-0.5 rounded-lg text-xs glass-frost text-white/80"
                       >
                         {tech}
                       </span>
@@ -116,7 +116,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
 
                 {/* Architecture */}
                 <div className="flex items-start gap-3">
-                  <div className="p-2 rounded-lg bg-primary-accent/10 border border-primary-accent/20 mt-1">
+                  <div className="p-2 glass-icon mt-1">
                     <Cpu className="w-4 h-4 text-primary-accent" />
                   </div>
                   <div>
@@ -127,7 +127,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
 
                 {/* Challenges & Solutions */}
                 <div className="flex items-start gap-3">
-                  <div className="p-2 rounded-lg bg-amber-500/10 border border-amber-500/20 mt-1">
+                  <div className="p-2 glass-icon mt-1">
                     <ShieldAlert className="w-4 h-4 text-amber-400" />
                   </div>
                   <div>
@@ -138,7 +138,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
 
                 {/* Achievements */}
                 <div className="flex items-start gap-3">
-                  <div className="p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20 mt-1">
+                  <div className="p-2 glass-icon mt-1">
                     <Award className="w-4 h-4 text-emerald-400" />
                   </div>
                   <div>
@@ -152,7 +152,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
               <div className="mt-8 pt-4 border-t border-white/5 flex justify-end">
                 <button
                   onClick={onClose}
-                  className="px-5 py-2 rounded-lg bg-white/10 text-xs font-semibold hover:bg-white/20 transition-colors text-white"
+                  className="px-5 py-2 glass-pill text-xs font-semibold text-white"
                 >
                   Close Showcase
                 </button>

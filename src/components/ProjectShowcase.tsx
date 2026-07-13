@@ -346,7 +346,7 @@ function CaseStudy({ project, onClose }: { project: typeof PROJECTS[0]; onClose:
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-6 right-6 w-10 h-10 rounded-full bg-black/40 hover:bg-black/60 flex items-center justify-center transition-colors border border-white/10 backdrop-blur z-10"
+          className="absolute top-6 right-6 w-10 h-10 glass-icon rounded-full flex items-center justify-center transition-all z-10"
         >
           <X className="w-4 h-4 text-white/80" />
         </button>
@@ -371,7 +371,7 @@ function CaseStudy({ project, onClose }: { project: typeof PROJECTS[0]; onClose:
         {/* Top metrics */}
         <div className="grid grid-cols-3 gap-4">
           {project.metrics.map((m) => (
-            <div key={m.label} className="rounded-2xl p-5 border border-white/5 text-center"
+            <div key={m.label} className="glass-card rounded-2xl p-5 text-center"
               style={{ background: `${project.color}0a` }}>
               <div className="text-3xl font-extrabold font-display mb-1" style={{ color: project.color }}>{m.value}</div>
               <div className="text-[10px] uppercase tracking-widest text-white/40 font-mono">{m.label}</div>
@@ -383,25 +383,25 @@ function CaseStudy({ project, onClose }: { project: typeof PROJECTS[0]; onClose:
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
           {/* Overview */}
-          <div className="rounded-2xl border border-white/5 p-6" style={{ background: "rgba(255,255,255,0.02)" }}>
+          <div className="glass-card rounded-2xl p-6">
             <div className="text-[9px] uppercase tracking-widest font-mono mb-3" style={{ color: project.color }}>Overview</div>
             <p className="text-sm text-white/75 leading-relaxed font-sans">{project.details}</p>
           </div>
 
           {/* Architecture */}
-          <div className="rounded-2xl border border-white/5 p-6" style={{ background: "rgba(255,255,255,0.02)" }}>
+          <div className="glass-card rounded-2xl p-6">
             <div className="text-[9px] uppercase tracking-widest font-mono mb-3" style={{ color: project.color }}>Architecture</div>
             <p className="text-sm text-white/75 leading-relaxed font-sans">{project.architecture}</p>
           </div>
 
           {/* Engineering Challenge */}
-          <div className="rounded-2xl border border-amber-500/15 p-6" style={{ background: "rgba(245,158,11,0.04)" }}>
+          <div className="glass-card rounded-2xl p-6">
             <div className="text-[9px] uppercase tracking-widest font-mono text-amber-400 mb-3">Engineering Challenge</div>
             <p className="text-sm text-white/75 leading-relaxed font-sans">{project.challenges}</p>
           </div>
 
           {/* Key Achievement */}
-          <div className="rounded-2xl border border-emerald-500/15 p-6" style={{ background: "rgba(16,163,127,0.04)" }}>
+          <div className="glass-card rounded-2xl p-6">
             <div className="text-[9px] uppercase tracking-widest font-mono text-emerald-400 mb-3">Key Achievements</div>
             <p className="text-sm text-white/75 leading-relaxed font-sans">{project.achievements}</p>
           </div>
@@ -662,7 +662,7 @@ export default function ProjectShowcase() {
         <div className="flex items-center justify-center gap-4 mt-6">
           <button
             onClick={() => go(activeIdx - 1)}
-            className="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 hover:border-white/20 transition-all text-white/50 hover:text-white"
+            className="w-9 h-9 glass-icon rounded-full flex items-center justify-center transition-all text-white/50 hover:text-white"
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
@@ -686,7 +686,7 @@ export default function ProjectShowcase() {
 
           <button
             onClick={() => go(activeIdx + 1)}
-            className="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 hover:border-white/20 transition-all text-white/50 hover:text-white"
+            className="w-9 h-9 glass-icon rounded-full flex items-center justify-center transition-all text-white/50 hover:text-white"
           >
             <ChevronRight className="w-4 h-4" />
           </button>
