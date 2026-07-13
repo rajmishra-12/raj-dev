@@ -35,10 +35,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${outfit.variable} ${inter.variable} h-full antialiased dark`}
+      className={`${outfit.variable} ${inter.variable} antialiased dark`}
       style={{ colorScheme: "dark" }}
     >
-      <body className="min-h-full bg-bg-main text-white selection:bg-primary-accent selection:text-white overflow-x-hidden">
+      <body className="min-h-screen bg-bg-main text-white selection:bg-primary-accent selection:text-white overflow-x-hidden">
         {children}
       </body>
     </html>
