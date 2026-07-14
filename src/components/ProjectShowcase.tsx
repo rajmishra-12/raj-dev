@@ -366,7 +366,7 @@ function PhoneMockup({ project, tilt = false }: { project: typeof PROJECTS[0]; t
   );
 }
 
-// ─── Full-screen Case Study ────────────────────────────────────────────────────
+// ─── Modal Case Study ────────────────────────────────────────────────────
 function CaseStudy({ project, onClose }: { project: typeof PROJECTS[0]; onClose: () => void }) {
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -383,137 +383,150 @@ function CaseStudy({ project, onClose }: { project: typeof PROJECTS[0]; onClose:
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.3 }}
-      className="fixed inset-0 z-[300] overflow-y-auto"
-      style={{ background: "#050505" }}
+      transition={{ duration: 0.25 }}
+      className="fixed inset-0 z-[300] bg-black/85 backdrop-blur-md overflow-y-auto py-10 px-4 md:px-8 flex justify-center items-start scrollbar-thin scrollbar-thumb-white/10"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
     >
-      {/* Hero banner */}
-      <div className={`relative w-full min-h-[45vh] bg-gradient-to-br ${project.bg} flex flex-col justify-end overflow-hidden`}>
-        {/* Grid pattern */}
-        <div className="absolute inset-0 opacity-10"
-          style={{
-            backgroundImage: "linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)",
-            backgroundSize: "40px 40px"
-          }} />
+      {/* Pinned/Sticky Close button relative to the SCREEN viewport */}
+      <button
+        onClick={onClose}
+        className="fixed top-5 right-5 md:top-8 md:right-8 w-12 h-12 rounded-full bg-black/60 border border-white/10 hover:border-white/30 flex items-center justify-center transition-all z-[350] cursor-pointer text-white hover:scale-105 shadow-lg"
+      >
+        <X className="w-5 h-5" />
+      </button>
 
-        {/* Ambient light */}
-        <div className="absolute top-0 left-1/4 w-96 h-96 rounded-full blur-3xl opacity-30"
-          style={{ background: project.color }} />
+      {/* Modal Container */}
+      <motion.div
+        initial={{ scale: 0.95, y: 15 }}
+        animate={{ scale: 1, y: 0 }}
+        exit={{ scale: 0.95, y: 15 }}
+        transition={{ type: "spring", damping: 25, stiffness: 350 }}
+        className="relative w-full max-w-4xl bg-[#0c0c0f] border border-white/10 rounded-3xl overflow-hidden flex flex-col shadow-2xl my-auto"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Scrollable Modal Content */}
+        <div className="flex-1 overflow-y-auto">
+          {/* Hero banner inside scroll view */}
+          <div className={`relative w-full min-h-[35vh] bg-gradient-to-br ${project.bg} flex flex-col justify-end overflow-hidden p-8 md:p-12`}>
+            {/* Grid pattern */}
+            <div className="absolute inset-0 opacity-10"
+              style={{
+                backgroundImage: "linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)",
+                backgroundSize: "40px 40px"
+              }} />
 
-        {/* Close button */}
-        <button
-          onClick={onClose}
-          className="absolute top-6 right-6 w-10 h-10 glass-icon rounded-full flex items-center justify-center transition-all z-10 cursor-pointer"
-        >
-          <X className="w-4 h-4 text-white/80" />
-        </button>
+            {/* Ambient light */}
+            <div className="absolute top-0 left-1/4 w-80 h-80 rounded-full blur-3xl opacity-25"
+              style={{ background: project.color }} />
 
-        {/* Badge + heading */}
-        <div className="relative z-10 px-8 md:px-16 pb-10 pt-16 max-w-5xl">
-          <div className="flex items-center gap-3 mb-4 flex-wrap">
-            <span className="px-3 py-1 rounded-full text-[10px] font-mono font-bold uppercase tracking-widest border"
-              style={{ color: project.color, borderColor: `${project.color}55`, background: `${project.color}18` }}>
-              {project.category}
-            </span>
-            <span className="text-[10px] font-mono text-white/40 uppercase tracking-widest">{project.status}</span>
-          </div>
-          <h1 className="text-4xl md:text-6xl font-extrabold font-display text-white mb-3 leading-tight">{project.title}</h1>
-          <p className="text-lg text-white/60 font-sans max-w-2xl">{project.tagline}</p>
-        </div>
-      </div>
-
-      {/* Content */}
-      <div className="max-w-5xl mx-auto px-6 md:px-16 py-12 space-y-12">
-
-        {/* Top metrics */}
-        <div className="grid grid-cols-3 gap-4">
-          {project.metrics.map((m) => (
-            <div key={m.label} className="glass-card rounded-2xl p-5 text-center"
-              style={{ background: `${project.color}0a` }}>
-              <div className="text-3xl font-extrabold font-display mb-1" style={{ color: project.color }}>{m.value}</div>
-              <div className="text-[10px] uppercase tracking-widest text-white/40 font-mono">{m.label}</div>
+            {/* Badge + heading */}
+            <div className="relative z-10 max-w-2xl pt-12">
+              <div className="flex items-center gap-3 mb-3 flex-wrap">
+                <span className="px-2.5 py-0.5 rounded-full text-[9px] font-mono font-bold uppercase tracking-widest border"
+                  style={{ color: project.color, borderColor: `${project.color}55`, background: `${project.color}18` }}>
+                  {project.category}
+                </span>
+                <span className="text-[9px] font-mono text-white/40 uppercase tracking-widest">{project.status}</span>
+              </div>
+              <h1 className="text-3xl md:text-5xl font-extrabold font-display text-white mb-2 leading-tight">{project.title}</h1>
+              <p className="text-base text-white/60 font-sans">{project.tagline}</p>
             </div>
-          ))}
+          </div>
+
+          {/* Details content inside scroll view */}
+          <div className="px-8 md:px-12 py-10 space-y-10">
+            {/* Top metrics */}
+            <div className="grid grid-cols-3 gap-4">
+              {project.metrics.map((m) => (
+                <div key={m.label} className="glass-card rounded-2xl p-4 text-center"
+                  style={{ background: `${project.color}0a` }}>
+                  <div className="text-2xl font-extrabold font-display mb-0.5" style={{ color: project.color }}>{m.value}</div>
+                  <div className="text-[9px] uppercase tracking-widest text-white/40 font-mono">{m.label}</div>
+                </div>
+              ))}
+            </div>
+
+            {/* Two-column detail layout */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              {/* Overview */}
+              <div className="glass-card rounded-2xl p-5 border border-white/5 bg-white/2">
+                <div className="text-[10px] uppercase tracking-widest font-mono mb-2" style={{ color: project.color }}>Overview</div>
+                <p className="text-sm text-white/90 leading-relaxed font-sans">{project.details}</p>
+              </div>
+
+              {/* Architecture */}
+              <div className="glass-card rounded-2xl p-5 border border-white/5 bg-white/2">
+                <div className="text-[10px] uppercase tracking-widest font-mono mb-2" style={{ color: project.color }}>Architecture</div>
+                <p className="text-sm text-white/90 leading-relaxed font-sans">{project.architecture}</p>
+              </div>
+
+              {/* Engineering Challenge */}
+              <div className="glass-card rounded-2xl p-5 border border-white/5 bg-white/2">
+                <div className="text-[10px] uppercase tracking-widest font-mono text-amber-400 mb-2">Engineering Challenge</div>
+                <p className="text-sm text-white/90 leading-relaxed font-sans">{project.challenges}</p>
+              </div>
+
+              {/* Key Achievement */}
+              <div className="glass-card rounded-2xl p-5 border border-white/5 bg-white/2">
+                <div className="text-[10px] uppercase tracking-widest font-mono text-emerald-400 mb-2">Key Achievements</div>
+                <p className="text-sm text-white/90 leading-relaxed font-sans">{project.achievements}</p>
+              </div>
+            </div>
+
+            {/* Tech Stack */}
+            <div>
+              <div className="text-[9px] uppercase tracking-widest font-mono text-white/30 mb-3">Technology Stack</div>
+              <div className="flex flex-wrap gap-2">
+                {project.techStack.map((t) => (
+                  <span key={t}
+                    className="px-2.5 py-1 rounded-full text-[9px] font-mono font-bold uppercase tracking-widest border transition-all cursor-default hover:scale-105"
+                    style={{ borderColor: `${project.color}55`, color: project.color, background: `${project.color}12` }}>
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Platforms and Store Links */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pt-6 border-t border-white/10">
+              <div className="flex items-center gap-3">
+                <span className="text-[9px] uppercase tracking-widest font-mono text-white/25">Available on</span>
+                {project.platforms.map((p) => (
+                  <span key={p} className="px-2.5 py-0.5 rounded-full text-[9px] font-mono border border-white/10 text-white/50">
+                    {p}
+                  </span>
+                ))}
+              </div>
+              <div className="flex items-center gap-2.5 flex-wrap">
+                {project.playStore && (
+                  <a
+                    href={project.playStore}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3.5 py-1.5 rounded-xl text-[9px] font-bold font-mono uppercase tracking-widest flex items-center gap-1.5 border border-white/10 hover:border-primary-accent hover:bg-primary-accent/10 text-white/80 hover:text-white transition-all cursor-pointer"
+                  >
+                    <span>Google Play</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                )}
+                {project.appStore && (
+                  <a
+                    href={project.appStore}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3.5 py-1.5 rounded-xl text-[9px] font-bold font-mono uppercase tracking-widest flex items-center gap-1.5 border border-white/10 hover:border-secondary-accent hover:bg-secondary-accent/10 text-white/80 hover:text-white transition-all cursor-pointer"
+                  >
+                    <span>App Store</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
-
-        {/* Two-column detail layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-
-          {/* Overview */}
-          <div className="glass-card rounded-2xl p-6">
-            <div className="text-[9px] uppercase tracking-widest font-mono mb-3" style={{ color: project.color }}>Overview</div>
-            <p className="text-sm text-white/75 leading-relaxed font-sans">{project.details}</p>
-          </div>
-
-          {/* Architecture */}
-          <div className="glass-card rounded-2xl p-6">
-            <div className="text-[9px] uppercase tracking-widest font-mono mb-3" style={{ color: project.color }}>Architecture</div>
-            <p className="text-sm text-white/75 leading-relaxed font-sans">{project.architecture}</p>
-          </div>
-
-          {/* Engineering Challenge */}
-          <div className="glass-card rounded-2xl p-6">
-            <div className="text-[9px] uppercase tracking-widest font-mono text-amber-400 mb-3">Engineering Challenge</div>
-            <p className="text-sm text-white/75 leading-relaxed font-sans">{project.challenges}</p>
-          </div>
-
-          {/* Key Achievement */}
-          <div className="glass-card rounded-2xl p-6">
-            <div className="text-[9px] uppercase tracking-widest font-mono text-emerald-400 mb-3">Key Achievements</div>
-            <p className="text-sm text-white/75 leading-relaxed font-sans">{project.achievements}</p>
-          </div>
-        </div>
-
-        {/* Tech Stack */}
-        <div>
-          <div className="text-[9px] uppercase tracking-widest font-mono text-white/30 mb-4">Technology Stack</div>
-          <div className="flex flex-wrap gap-2.5">
-            {project.techStack.map((t) => (
-              <span key={t}
-                className="px-3 py-1.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-widest border transition-all cursor-default hover:scale-105"
-                style={{ borderColor: `${project.color}55`, color: project.color, background: `${project.color}12` }}>
-                {t}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        {/* Platforms and Store Links */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pt-6 border-t border-white/10">
-          <div className="flex items-center gap-3">
-            <span className="text-[9px] uppercase tracking-widest font-mono text-white/25">Available on</span>
-            {project.platforms.map((p) => (
-              <span key={p} className="px-3 py-1 rounded-full text-[10px] font-mono border border-white/10 text-white/50">
-                {p}
-              </span>
-            ))}
-          </div>
-          <div className="flex items-center gap-3 flex-wrap">
-            {project.playStore && (
-              <a
-                href={project.playStore}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-4 py-2 rounded-xl text-[10px] font-bold font-mono uppercase tracking-widest flex items-center gap-1.5 border border-white/10 hover:border-primary-accent hover:bg-primary-accent/10 text-white/80 hover:text-white transition-all cursor-pointer"
-              >
-                <span>Google Play</span>
-                <ExternalLink className="w-3 h-3" />
-              </a>
-            )}
-            {project.appStore && (
-              <a
-                href={project.appStore}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-4 py-2 rounded-xl text-[10px] font-bold font-mono uppercase tracking-widest flex items-center gap-1.5 border border-white/10 hover:border-secondary-accent hover:bg-secondary-accent/10 text-white/80 hover:text-white transition-all cursor-pointer"
-              >
-                <span>App Store</span>
-                <ExternalLink className="w-3 h-3" />
-              </a>
-            )}
-          </div>
-        </div>
-      </div>
+      </motion.div>
     </motion.div>
   );
 }

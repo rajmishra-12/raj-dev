@@ -21,6 +21,7 @@ import SmoothScroll from "@/components/SmoothScroll";
 
 import HeroScene from "@/components/HeroScene";
 import GalaxyScene from "@/components/GalaxyScene";
+import SkillHUD from "@/components/SkillHUD";
 import Timeline from "@/components/Timeline";
 import ProjectShowcase from "@/components/ProjectShowcase";
 import ContactForm from "@/components/ContactForm";
@@ -30,6 +31,7 @@ import ConsoleLogs from "@/components/ConsoleLogs";
 import SystemMetrics from "@/components/SystemMetrics";
 
 export default function Home() {
+  const [activeSkill, setActiveSkill] = useState<string | null>(null);
 
   return (
     <div className="relative w-full z-10">
@@ -300,20 +302,48 @@ export default function Home() {
       </section>
 
       {/* Tech Stack Orbiting Galaxy Section */}
-      <section id="skills" className="py-8 px-6 bg-gradient-to-b from-transparent via-white/[0.01] to-transparent border-y border-white/5">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center max-w-2xl mx-auto mb-6">
-            <span className="text-xs uppercase tracking-widest text-primary-accent font-bold mb-2 block">Interactive Visualization</span>
-            <h2 className="text-3xl md:text-5xl font-bold font-display text-gradient-primary mb-4">
+      <section id="skills" className="relative py-0 overflow-hidden">
+        {/* Top gradient fade */}
+        <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-bg-main to-transparent z-10 pointer-events-none" />
+        {/* Bottom gradient fade */}
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-bg-main to-transparent z-10 pointer-events-none" />
+
+        {/* Subtle grid overlay */}
+        <div
+          className="absolute inset-0 opacity-[0.02] pointer-events-none"
+          style={{
+            backgroundImage: `linear-gradient(rgba(79,140,255,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(79,140,255,0.3) 1px, transparent 1px)`,
+            backgroundSize: "80px 80px",
+          }}
+        />
+
+        <div className="relative z-[5] max-w-6xl mx-auto px-6 pt-20 pb-4">
+          <div className="text-center max-w-2xl mx-auto mb-10">
+            {/* Animated accent line */}
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <div className="h-px w-12 bg-gradient-to-r from-transparent to-primary-accent/50" />
+              <span className="text-[10px] uppercase tracking-[0.35em] text-primary-accent font-mono font-bold">
+                Interactive Ecosystem
+              </span>
+              <div className="h-px w-12 bg-gradient-to-l from-transparent to-primary-accent/50" />
+            </div>
+
+            <h2 className="text-4xl md:text-5xl font-bold font-display text-gradient-primary mb-3 leading-tight">
               Galaxy of Technologies
             </h2>
-            <p className="text-sm text-white/60 font-sans">
-              Hover over any technology orbiting the Flutter core to see exactly where and how it was implemented in production.
+            <p className="text-sm text-white/50 font-sans max-w-lg mx-auto">
+              Explore the Flutter ecosystem. Orbiting nodes represent production tech — hover to sync telemetry details.
             </p>
           </div>
+        </div>
 
-          <div className="w-full bg-zinc-950/20 rounded-2xl border border-white/5" style={{ overflow: 'visible' }}>
-            <GalaxyScene />
+        {/* Side-by-side layout: Canvas + HUD */}
+        <div className="relative z-[5] max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center pb-20">
+          <div className="lg:col-span-8 w-full bg-zinc-950/10 rounded-3xl border border-white/5 relative overflow-hidden" style={{ height: "600px" }}>
+            <GalaxyScene activeId={activeSkill} onActiveChange={setActiveSkill} />
+          </div>
+          <div className="lg:col-span-4 h-full flex flex-col justify-center">
+            <SkillHUD activeId={activeSkill} />
           </div>
         </div>
       </section>
@@ -460,7 +490,7 @@ export default function Home() {
               </a>
 
               <a
-                href="https://linkedin.com/in/rajmishra-dev"
+                href="https://www.linkedin.com/in/raj-mishra-773531292/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-4 p-4 rounded-xl glass-frost transition-all duration-300 group"
@@ -470,12 +500,12 @@ export default function Home() {
                 </div>
                 <div>
                   <span className="block text-[10px] uppercase tracking-widest text-white/40 font-bold">LinkedIn Connect</span>
-                  <span className="text-sm font-semibold text-white">linkedin.com/in/rajmishra-dev</span>
+                  <span className="text-sm font-semibold text-white">linkedin.com/in/raj-mishra-773531292/</span>
                 </div>
               </a>
 
               <a
-                href="https://github.com/rajmishra-dev"
+                href="https://github.com/rajmishra-12"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-4 p-4 rounded-xl glass-frost transition-all duration-300 group"
@@ -485,7 +515,7 @@ export default function Home() {
                 </div>
                 <div>
                   <span className="block text-[10px] uppercase tracking-widest text-white/40 font-bold">GitHub Codebase</span>
-                  <span className="text-sm font-semibold text-white">github.com/rajmishra-dev</span>
+                  <span className="text-sm font-semibold text-white">github.com/rajmishra-12</span>
                 </div>
               </a>
             </div>
