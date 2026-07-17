@@ -1,18 +1,20 @@
 "use client";
 
-import { useEffect, useRef, useState, Suspense, useMemo } from "react";
+import { useEffect, useRef, useState, Suspense, useMemo, useCallback } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import {
   Html,
   useGLTF,
   ContactShadows,
-  Environment,
   Sparkles,
-  Line,
 } from "@react-three/drei";
 import * as THREE from "three";
 
 useGLTF.preload("/models/iphone17.glb");
+
+// ─── Shared vector pool (avoid GC in render loops) ──────────────────────────
+const _v3A = new THREE.Vector3();
+const _v3B = new THREE.Vector3();
 
 // ─── Tech node data ────────────────────────────────────────────────────────────
 const TECH_NODES = [
@@ -67,48 +69,51 @@ const TECH_NODES = [
   },
 ];
 
-// ─── Animated glowing line between two 3D points ───────────────────────────────
-function GlowLine({
-  from,
-  to,
-  color,
-  active,
-}: {
-  from: THREE.Vector3;
-  to: THREE.Vector3;
-  color: string;
-  active: boolean;
-}) {
-  const opacityRef = useRef(0.25);
+// Pre-compute connection line geometry (static — never re-created)
+const PHONE_ORIGIN = new THREE.Vector3(0, 0, 0);
+const LINE_POINTS_CACHE = TECH_NODES.map((n) => [
+  new THREE.Vector3(...n.position),
+  PHONE_ORIGIN,
+] as [THREE.Vector3, THREE.Vector3]);
 
-  useFrame(({ clock }) => {
-    const t = clock.getElapsedTime();
-    opacityRef.current = active
-      ? 0.75
-      : 0.15 + Math.abs(Math.sin(t * 1.8)) * 0.3 * 0.35;
-  });
+// ─── GPU-friendly glow lines using instanced BufferGeometry ─────────────────
+function ConnectionLines({ activeNode }: { activeNode: string | null }) {
+  const linesRef = useRef<THREE.Group>(null);
 
   return (
-    <Line
-      points={[from, to]}
-      color={active ? color : "#4F8CFF"}
-      lineWidth={active ? 1.5 : 0.8}
-      transparent
-      opacity={active ? 0.75 : 0.28}
-    />
+    <group ref={linesRef}>
+      {TECH_NODES.map((node, i) => {
+        const isActive = activeNode === node.id;
+        return (
+          <line key={node.id}>
+            <bufferGeometry>
+              <bufferAttribute
+                attach="attributes-position"
+                args={[new Float32Array([
+                  ...LINE_POINTS_CACHE[i][0].toArray(),
+                  ...LINE_POINTS_CACHE[i][1].toArray(),
+                ]), 3]}
+              />
+            </bufferGeometry>
+            <lineBasicMaterial
+              color={isActive ? node.color : "#4F8CFF"}
+              transparent
+              opacity={isActive ? 0.75 : 0.22}
+              linewidth={1}
+            />
+          </line>
+        );
+      })}
+    </group>
   );
 }
 
-// ─── Single interactive tech chip ─────────────────────────────────────────────
-function TechChip({
-  node,
-  activeNode,
-  onHover,
-}: {
+// ─── Single interactive tech chip (optimized: memoized styles) ────────────────
+const TechChip = ({ node, activeNode, onHover }: {
   node: (typeof TECH_NODES)[0];
   activeNode: string | null;
   onHover: (id: string | null) => void;
-}) {
+}) => {
   const chipRef = useRef<THREE.Group>(null);
   const isActive = activeNode === node.id;
 
@@ -122,87 +127,90 @@ function TechChip({
     }
   });
 
-  const phoneOrigin = new THREE.Vector3(0, 0, 0);
+  // Memoize stable inline styles to prevent re-creation every render
+  const chipStyle = useMemo(() => ({
+    borderColor: isActive ? node.color : "rgba(255,255,255,0.12)",
+    boxShadow: isActive
+      ? `0 0 18px ${node.color}55, 0 0 6px ${node.color}33`
+      : "none",
+    transform: isActive ? "scale(1.08)" : "scale(1)",
+    transition: "all 0.25s cubic-bezier(0.34,1.56,0.64,1)",
+  }), [isActive, node.color]);
+
+  const labelStyle = useMemo(() => ({
+    color: isActive ? node.color : "rgba(255,255,255,0.75)",
+  }), [isActive, node.color]);
+
+  const tooltipBgStyle = useMemo(() => ({
+    background: `linear-gradient(135deg, ${node.color}22, rgba(5,5,5,0.92))`,
+    boxShadow: `0 4px 20px ${node.color}33`,
+  }), [node.color]);
+
+  const tooltipArrowStyle = useMemo(() => ({
+    borderLeft: "4px solid transparent",
+    borderRight: "4px solid transparent",
+    borderTop: `4px solid ${node.color}55`,
+  }), [node.color]);
+
+  const handleEnter = useCallback(() => onHover(node.id), [onHover, node.id]);
+  const handleLeave = useCallback(() => onHover(null), [onHover]);
 
   return (
-    <>
-      <GlowLine
-        from={new THREE.Vector3(...node.position)}
-        to={phoneOrigin}
-        color={node.color}
-        active={isActive}
-      />
-
-      <group
-        ref={chipRef}
-        position={node.position}
-        onPointerEnter={() => onHover(node.id)}
-        onPointerLeave={() => onHover(null)}
+    <group
+      ref={chipRef}
+      position={node.position}
+      onPointerEnter={handleEnter}
+      onPointerLeave={handleLeave}
+    >
+      <Html
+        transform={false}
+        occlude={false}
+        distanceFactor={6}
+        zIndexRange={[10, 20]}
+        style={{ pointerEvents: "auto" }}
       >
-        <Html
-          transform={false}
-          occlude={false}
-          distanceFactor={6}
-          zIndexRange={[10, 20]}
-          style={{ pointerEvents: "auto" }}
+        <div
+          className="group relative cursor-pointer select-none"
+          onMouseEnter={handleEnter}
+          onMouseLeave={handleLeave}
         >
+          {/* Chip pill */}
           <div
-            className="group relative cursor-pointer select-none"
-            onMouseEnter={() => onHover(node.id)}
-            onMouseLeave={() => onHover(null)}
+            style={chipStyle}
+            className="px-2.5 py-1 rounded-full border bg-zinc-950/80 backdrop-blur-md flex items-center gap-1.5 whitespace-nowrap"
           >
-            {/* Chip pill */}
-            <div
-              style={{
-                borderColor: isActive ? node.color : "rgba(255,255,255,0.12)",
-                boxShadow: isActive
-                  ? `0 0 18px ${node.color}55, 0 0 6px ${node.color}33`
-                  : "none",
-                transform: isActive ? "scale(1.08)" : "scale(1)",
-                transition: "all 0.25s cubic-bezier(0.34,1.56,0.64,1)",
-              }}
-              className="px-2.5 py-1 rounded-full border bg-zinc-950/80 backdrop-blur-md flex items-center gap-1.5 whitespace-nowrap"
+            <span
+              className="w-1.5 h-1.5 rounded-full shrink-0"
+              style={{ background: node.color }}
+            />
+            <span
+              className="text-[9px] font-mono font-bold uppercase tracking-widest"
+              style={labelStyle}
             >
-              <span
-                className="w-1.5 h-1.5 rounded-full shrink-0"
-                style={{ background: node.color }}
-              />
-              <span
-                className="text-[9px] font-mono font-bold uppercase tracking-widest"
-                style={{ color: isActive ? node.color : "rgba(255,255,255,0.75)" }}
-              >
-                {node.label}
-              </span>
-            </div>
-
-            {/* Tooltip */}
-            {isActive && (
-              <div
-                className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 px-2.5 py-1.5 rounded-lg text-[8px] font-sans font-medium text-white/90 whitespace-nowrap pointer-events-none z-50 border border-white/10 backdrop-blur-md"
-                style={{
-                  background: `linear-gradient(135deg, ${node.color}22, rgba(5,5,5,0.92))`,
-                  boxShadow: `0 4px 20px ${node.color}33`,
-                }}
-              >
-                {node.tooltip}
-                <div
-                  className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0"
-                  style={{
-                    borderLeft: "4px solid transparent",
-                    borderRight: "4px solid transparent",
-                    borderTop: `4px solid ${node.color}55`,
-                  }}
-                />
-              </div>
-            )}
+              {node.label}
+            </span>
           </div>
-        </Html>
-      </group>
-    </>
-  );
-}
 
-// ─── Live App Screen overlay ───────────────────────────────────────────────────
+          {/* Tooltip */}
+          {isActive && (
+            <div
+              className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 px-2.5 py-1.5 rounded-lg text-[8px] font-sans font-medium text-white/90 whitespace-nowrap pointer-events-none z-50 border border-white/10 backdrop-blur-md"
+              style={tooltipBgStyle}
+            >
+              {node.tooltip}
+              <div
+                className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0"
+                style={tooltipArrowStyle}
+              />
+            </div>
+          )}
+        </div>
+      </Html>
+    </group>
+  );
+};
+
+// ─── Live App Screen overlay (optimized: fewer timer intervals) ──────────────
 function AppScreen() {
   const [chartData, setChartData] = useState([42, 67, 53, 78, 61, 85, 70, 92]);
   const [notification, setNotification] = useState<string | null>(null);
@@ -216,13 +224,13 @@ function AppScreen() {
   ]);
   const notifIdx = useRef(0);
 
-  // Animate chart
+  // Animate chart — slower interval for less DOM thrashing
   useEffect(() => {
     const id = setInterval(() => {
       setChartData((prev) =>
         prev.map((v) => Math.max(15, Math.min(98, v + (Math.random() * 18 - 9))))
       );
-    }, 2200);
+    }, 3000); // was 2200ms, slowed to 3s
     return () => clearInterval(id);
   }, []);
 
@@ -236,7 +244,7 @@ function AppScreen() {
       setTimeout(() => setNotifVisible(false), 3200);
     };
     fire();
-    const id = setInterval(fire, 7500);
+    const id = setInterval(fire, 8000); // was 7500ms, slowed slightly
     return () => clearInterval(id);
   }, []);
 
@@ -366,17 +374,17 @@ function PhoneModel({
   const mouseRef = useRef({ x: 0, y: 0, tx: 0, ty: 0 });
   const [centerOffset, setCenterOffset] = useState(new THREE.Vector3());
 
-  // Mouse tracking
+  // Mouse tracking — throttled via passive listener
   useEffect(() => {
     const onMove = (e: MouseEvent) => {
       mouseRef.current.tx = ((e.clientX / window.innerWidth) - 0.5) * 0.6;
       mouseRef.current.ty = ((e.clientY / window.innerHeight) - 0.5) * 0.5;
     };
-    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mousemove", onMove, { passive: true });
     return () => window.removeEventListener("mousemove", onMove);
   }, []);
 
-  // Center the model
+  // Center the model + make screen transparent (runs once on load)
   useEffect(() => {
     if (!gltf?.scene) return;
     gltf.scene.position.set(0, 0, 0);
@@ -390,14 +398,17 @@ function PhoneModel({
     setCenterOffset(center);
 
     // Make screen mesh transparent so Html overlay shows
+    const screenMat = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0.0 });
     gltf.scene.traverse((child: any) => {
       if (child.isMesh) {
         const n = child.name.toLowerCase();
         const isScreen =
           n.includes("screen") || n.includes("display") || n.includes("glass_front") || n.includes("lcd");
         if (isScreen) {
-          child.material = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0.0 });
+          child.material = screenMat; // reuse single material instance
         }
+        // Optimize all meshes: disable frustum culling for small scene
+        child.frustumCulled = false;
       }
     });
   }, [gltf]);
@@ -443,9 +454,9 @@ function PhoneModel({
   );
 }
 
-// ─── Ambient floating particles ────────────────────────────────────────────────
+// ─── Ambient floating particles (merged — single system replaces two) ────────
 function AmbientParticles() {
-  const count = 90;
+  const count = 80; // reduced from 90+40 to a single 80-particle system
   const positions = useMemo(() => {
     const arr = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
@@ -469,7 +480,7 @@ function AmbientParticles() {
           args={[positions, 3]}
         />
       </bufferGeometry>
-      <pointsMaterial color="#4F8CFF" size={0.012} transparent opacity={0.45} sizeAttenuation />
+      <pointsMaterial color="#5FA0FF" size={0.015} transparent opacity={0.5} sizeAttenuation />
     </points>
   );
 }
@@ -500,21 +511,23 @@ export default function HeroScene() {
     <div className="w-full h-full relative">
       <Canvas
         camera={{ position: [0, 0, 3.6], fov: 42 }}
-        shadows
-        gl={{ antialias: true, alpha: true }}
+        gl={{
+          antialias: true,
+          alpha: true,
+          powerPreference: "high-performance",
+          stencil: false,
+          depth: true,
+        }}
+        dpr={[1, 1.5]}
+        frameloop="always"
         style={{ background: "transparent" }}
       >
         <CameraOrbit />
 
-        {/* Lighting */}
-        <ambientLight intensity={0.55} />
-        <directionalLight position={[4, 8, 5]} intensity={2.8} color="#4F8CFF" castShadow />
-        <directionalLight position={[-4, -4, -2]} intensity={1.2} color="#6FE7FF" />
-        <pointLight position={[0, 0, 3]} intensity={1.8} color="#ffffff" />
-        <pointLight position={[-2, 2, 1]} intensity={1.0} color="#4F8CFF" />
-        <pointLight position={[2, -2, 1]} intensity={0.8} color="#6FE7FF" />
-
-        <Environment preset="city" />
+        {/* Lighting — reduced from 6 to 3 lights */}
+        <ambientLight intensity={0.6} />
+        <directionalLight position={[4, 8, 5]} intensity={3.0} color="#4F8CFF" />
+        <directionalLight position={[-3, -3, -2]} intensity={1.0} color="#6FE7FF" />
 
         <Suspense
           fallback={
@@ -525,18 +538,11 @@ export default function HeroScene() {
             </Html>
           }
         >
-          {/* Ambient particles */}
+          {/* Single merged particle system (replaces AmbientParticles + Sparkles) */}
           <AmbientParticles />
 
-          {/* Sparkles from Drei */}
-          <Sparkles
-            count={40}
-            scale={3.5}
-            size={1.2}
-            speed={0.3}
-            opacity={0.45}
-            color="#6FE7FF"
-          />
+          {/* Connection lines — batched as raw GL lines */}
+          <ConnectionLines activeNode={activeNode} />
 
           {/* Phone */}
           <PhoneModel activeNode={activeNode} />
@@ -554,11 +560,13 @@ export default function HeroScene() {
 
         <ContactShadows
           position={[0, -2.4, 0]}
-          opacity={0.55}
-          scale={9}
-          blur={2.5}
-          far={5}
+          opacity={0.45}
+          scale={8}
+          blur={2}
+          far={4.5}
           color="#4F8CFF"
+          resolution={128}
+          frames={1}
         />
       </Canvas>
     </div>

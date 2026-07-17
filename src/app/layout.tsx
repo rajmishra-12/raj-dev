@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
-import { Outfit, Inter } from "next/font/google";
+import { Outfit, Inter, Geist } from "next/font/google";
 import "./globals.css";
+import { cn } from "@/lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -35,7 +38,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${outfit.variable} ${inter.variable} antialiased dark`}
+      className={cn("antialiased", "dark", outfit.variable, inter.variable, "font-sans", geist.variable)}
       style={{ colorScheme: "dark" }}
     >
       <body className="min-h-screen bg-bg-main text-white selection:bg-primary-accent selection:text-white overflow-x-hidden">

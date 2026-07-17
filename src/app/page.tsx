@@ -41,89 +41,94 @@ export default function Home() {
       <SmoothScroll />
 
       {/* Header Glass Navigation */}
-      <header className="sticky top-0 z-40 w-full glass-panel border-b border-white/5">
-        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+      <header className="sticky top-0 z-50 w-full glass-panel border-b border-white/5 backdrop-blur-md">
+        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="flex items-center gap-2 cursor-pointer"
+            className="flex items-center gap-2.5 cursor-pointer group"
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           >
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-primary-accent to-secondary-accent flex items-center justify-center font-bold font-display text-black text-sm">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-primary-accent to-secondary-accent flex items-center justify-center font-bold font-display text-black text-xs transition-transform group-hover:scale-105">
               RM
             </div>
-            <span className="font-display font-semibold tracking-wide text-sm">rajmishra.dev</span>
+            <span className="font-display font-bold tracking-tight text-sm text-white/95 group-hover:text-white transition-colors">
+              rajmishra<span className="text-primary-accent">.dev</span>
+            </span>
           </motion.div>
 
-          <nav className="hidden md:flex items-center gap-8 text-xs uppercase tracking-widest text-white/60">
-            <a href="#about" className="hover:text-white transition-all duration-300">About</a>
-            <a href="#skills" className="hover:text-white transition-all duration-300">Galaxy</a>
-            <a href="#timeline" className="hover:text-white transition-all duration-300">Experience</a>
-            <a href="#projects" className="hover:text-white transition-all duration-300">Projects</a>
-            <a href="#contact" className="hover:text-white transition-all duration-300">Contact</a>
+          <nav className="hidden md:flex items-center gap-10 text-[10px] uppercase tracking-[0.2em] font-bold text-white/60">
+            <a href="#about" className="hover:text-white transition-all duration-300 relative py-1 hover:translate-y-[-1px]">About</a>
+            <a href="#skills" className="hover:text-white transition-all duration-300 relative py-1 hover:translate-y-[-1px]">Ecosystem</a>
+            <a href="#timeline" className="hover:text-white transition-all duration-300 relative py-1 hover:translate-y-[-1px]">Timeline</a>
+            <a href="#projects" className="hover:text-white transition-all duration-300 relative py-1 hover:translate-y-[-1px]">Case Studies</a>
+            <a href="#contact" className="hover:text-white transition-all duration-300 relative py-1 hover:translate-y-[-1px]">Contact</a>
           </nav>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             <SoundManager />
             <motion.a
               href="#contact"
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="px-4 py-2 glass-pill text-xs font-semibold text-white/90"
+              className="px-4 py-2 bg-white/5 border border-white/10 hover:border-white/20 hover:bg-white/10 text-[10px] font-mono uppercase tracking-widest text-white/90 rounded-lg transition-all"
             >
-              Let&apos;s Connect
+              Contact
             </motion.a>
           </div>
         </div>
       </header>
 
       {/* Hero Section */}
-      <section className="relative min-h-[95vh] flex items-center justify-center py-12 px-6 overflow-hidden">
+      <section className="relative min-h-[95vh] flex items-center justify-center py-20 px-6 overflow-hidden">
+        {/* Subtle grid and glows */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary-accent/5 via-transparent to-transparent pointer-events-none" />
+        
         <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch relative z-10">
           
           {/* Left Column: Intro + Terminal */}
-          <div className="lg:col-span-4 flex flex-col justify-between space-y-6">
-            <div className="space-y-4">
+          <div className="lg:col-span-3 flex flex-col justify-between space-y-8">
+            <div className="space-y-5">
               <motion.div
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full glass-frost text-[10px] font-semibold text-primary-accent uppercase tracking-wider"
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.02] border border-white/5 text-[9px] font-mono text-primary-accent uppercase tracking-widest"
               >
                 <Sparkles className="w-3 h-3" />
                 <span>Available for Enterprise Roles</span>
               </motion.div>
               
-              <div className="space-y-1">
+              <div className="space-y-2">
                 <motion.h1
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="text-4xl md:text-5xl font-extrabold font-display leading-none tracking-tight text-gradient-primary"
+                  className="text-4xl md:text-5xl font-extrabold font-display leading-tight tracking-tight text-gradient-primary"
                 >
                   Raj Mishra
                 </motion.h1>
                 <motion.h2
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="text-lg md:text-xl font-medium font-display text-gradient-secondary"
+                  className="text-md md:text-lg font-medium font-mono text-gradient-secondary uppercase tracking-widest"
                 >
-                  Flutter Architect & Engineer
+                  Flutter Architect
                 </motion.h2>
               </div>
 
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="text-xs text-white/70 leading-relaxed font-sans"
+                className="text-xs text-white/60 leading-relaxed font-sans"
               >
-                Building high-scale mobile products powered by AI, BLE/IoT integration, and real-time state synchronizations.
+                Engineering scalable cross-platform architectures, deep BLE/IoT hardware interfaces, and responsive AI integrations.
               </motion.p>
 
-              <motion.div className="flex flex-wrap gap-2.5 pt-1">
-                <a href="#projects" className="px-4 py-2 rounded bg-primary-accent hover:bg-primary-accent/90 text-white font-semibold text-xs transition-all flex items-center gap-1">
+              <motion.div className="flex flex-wrap gap-3 pt-2">
+                <a href="#projects" className="px-4 py-2 rounded-lg bg-primary-accent text-white font-mono uppercase tracking-widest text-[10px] transition-all hover:bg-primary-accent/90 flex items-center gap-1.5 shadow-[0_0_20px_rgba(79,140,255,0.2)]">
                   <span>Showcase</span>
-                  <ChevronRight className="w-3.5 h-3.5" />
+                  <ChevronRight className="w-3 h-3" />
                 </a>
-                <a href="#contact" className="px-4 py-2 rounded-xl glass-frost text-white font-semibold text-xs flex items-center gap-1">
+                <a href="#contact" className="px-4 py-2 rounded-lg bg-white/5 border border-white/10 hover:border-white/20 text-white font-mono uppercase tracking-widest text-[10px] flex items-center gap-1 transition-all">
                   <span>Connect</span>
                 </a>
               </motion.div>
@@ -135,12 +140,12 @@ export default function Home() {
 
           {/* Middle Column: Large 3D Viewport */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
+            initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8 }}
-            className="lg:col-span-5 w-full h-[400px] lg:h-auto min-h-[450px] flex items-center justify-center relative glass-card overflow-hidden"
+            className="lg:col-span-5 w-full h-[400px] lg:h-auto min-h-[480px] flex items-center justify-center relative glass-card overflow-hidden"
           >
-            <div className="absolute top-4 left-4 font-mono text-[8px] uppercase tracking-wider text-white/30 z-20">
+            <div className="absolute top-4 left-4 font-mono text-[8px] uppercase tracking-widest text-white/30 z-20">
               3D VIEWPORT // EXPLODE ON SCROLL
             </div>
             <HeroScene />
@@ -151,16 +156,16 @@ export default function Home() {
             <SystemMetrics />
             
             {/* Core Commitments glass card */}
-            <div className="glass-card p-4 rounded-xl border border-white/5 font-mono text-[9px] text-white/40 space-y-2.5">
-              <span className="text-[8px] uppercase tracking-wider text-white/30 font-bold block border-b border-white/5 pb-1">Architecture Promises</span>
-              <div className="space-y-1.5 text-white/80">
+            <div className="glass-card p-5 rounded-xl border border-white/5 font-mono text-[10px] text-white/50 space-y-3.5">
+              <span className="text-[8px] uppercase tracking-widest text-white/40 font-bold block border-b border-white/5 pb-1.5">Architecture Promises</span>
+              <div className="space-y-2 text-white/80">
                 <div className="flex justify-between">
                   <span>Clean Architecture</span>
-                  <span className="text-primary-accent">[VERIFIED]</span>
+                  <span className="text-primary-accent font-bold">[VERIFIED]</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Render Target Rate</span>
-                  <span className="text-secondary-accent">[60 FPS]</span>
+                  <span className="text-secondary-accent font-bold">[60 FPS]</span>
                 </div>
                 <div className="flex justify-between">
                   <span>State Management</span>
@@ -173,6 +178,9 @@ export default function Home() {
               </div>
             </div>
           </div>
+
+          {/* Rightmost Empty Space to cluster columns */}
+          <div className="hidden lg:block lg:col-span-1 pointer-events-none" />
 
         </div>
       </section>
